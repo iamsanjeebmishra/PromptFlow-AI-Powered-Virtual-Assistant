@@ -1,7 +1,10 @@
 
 import "./ChatWindow.css";
+import "./ShareModal.css";
+
 import Chat from "./Chat.jsx";
 import { MyContext } from "./MyContext.jsx";
+
 import {
     useContext,
     useState,
@@ -9,6 +12,7 @@ import {
     useLayoutEffect,
     useRef
 } from "react";
+
 import { ScaleLoader } from "react-spinners";
 
 const API_BASE_URL = "http://localhost:8080/api";
@@ -29,16 +33,21 @@ function ChatWindow() {
     const [loading, setLoading] = useState(false);
     const [isSharing, setIsSharing] = useState(false);
 
+    // Share modal states
+    const [shareUrl, setShareUrl] = useState("");
+    const [showShareModal, setShowShareModal] = useState(false);
+    const [copiedShareLink, setCopiedShareLink] = useState(false);
+
     const [isExpanded, setIsExpanded] = useState(false);
     const [showExpandButton, setShowExpandButton] = useState(false);
 
     const textareaRef = useRef(null);
 
-    // Prevent regeneration from appending a duplicate assistant message
+    // Prevent regeneration from appending duplicate messages
     const handledReplyRef = useRef(null);
 
 
-    // Automatically resize the textarea
+    // Automatically resize textarea
     const resizeTextarea = () => {
         const textarea = textareaRef.current;
 
@@ -204,6 +213,7 @@ function ChatWindow() {
 
             if (!response.ok) {
                 const errorData = await response.json();
+
                 throw new Error(
                     errorData.error || "Failed to regenerate response"
                 );
@@ -211,7 +221,6 @@ function ChatWindow() {
 
             const data = await response.json();
 
-            // Mark the response as already handled by this component
             handledReplyRef.current = data.reply;
 
             // Replace the latest assistant response in React state
@@ -229,7 +238,6 @@ function ChatWindow() {
                 return updatedChats;
             });
 
-            // Chat.jsx uses reply changes to animate the latest response
             setReply(data.reply);
 
         } catch (error) {
@@ -241,7 +249,7 @@ function ChatWindow() {
     };
 
 
-    // Share the complete conversation
+    // Create a shareable conversation URL
     const handleShareConversation = async () => {
         if (
             isSharing ||
@@ -262,44 +270,25 @@ function ChatWindow() {
                 }
             );
 
+            const data = await response.json();
+
             if (!response.ok) {
-                const errorData = await response.json();
                 throw new Error(
-                    errorData.error || "Failed to create share link"
+                    data.error || "Failed to create share link"
                 );
             }
 
-            const data = await response.json();
-
             if (!data.shareId) {
-                throw new Error("Share link was not returned by the server");
+                throw new Error("Share ID was not returned by the server");
             }
 
-            const shareUrl =
+            const generatedUrl =
                 `${window.location.origin}/share/${data.shareId}`;
 
-            // Use the native sharing menu when available
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: "PromptFlow conversation",
-                        text: "Check out this conversation on PromptFlow.",
-                        url: shareUrl
-                    });
-
-                    return;
-                } catch (shareError) {
-                    // Closing the native share menu is not an error
-                    if (shareError.name === "AbortError") {
-                        return;
-                    }
-                }
-            }
-
-            // Fallback: copy the link
-            await navigator.clipboard.writeText(shareUrl);
-
-            window.alert("Share link copied to clipboard.");
+            // Store the link and open PromptFlow's custom popup
+            setShareUrl(generatedUrl);
+            setCopiedShareLink(false);
+            setShowShareModal(true);
 
         } catch (error) {
             console.error("Share error:", error);
@@ -310,6 +299,47 @@ function ChatWindow() {
     };
 
 
+    // Copy the generated sharing URL
+    const handleCopyShareLink = async () => {
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            setCopiedShareLink(true);
+        } catch (error) {
+            console.error("Copy link failed:", error);
+
+            // Fallback for browsers where clipboard access is unavailable
+            window.prompt("Copy your sharing link:", shareUrl);
+        }
+    };
+
+
+    // Open native sharing menu only when explicitly requested
+    const handleNativeShare = async () => {
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: "PromptFlow conversation",
+                    text: "Check out this conversation on PromptFlow.",
+                    url: shareUrl
+                });
+            } else {
+                await handleCopyShareLink();
+            }
+        } catch (error) {
+            if (error.name !== "AbortError") {
+                console.error("Native sharing failed:", error);
+            }
+        }
+    };
+
+
+    // Close share popup
+    const closeShareModal = () => {
+        setShowShareModal(false);
+        setCopiedShareLink(false);
+    };
+
+
     // Enter sends; Shift + Enter inserts a new line
     const handleKeyDown = (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -317,8 +347,12 @@ function ChatWindow() {
             getReply();
         }
 
-        if (e.key === "Escape" && isExpanded) {
-            setIsExpanded(false);
+        if (e.key === "Escape") {
+            if (showShareModal) {
+                closeShareModal();
+            } else if (isExpanded) {
+                setIsExpanded(false);
+            }
         }
     };
 
@@ -473,6 +507,79 @@ function ChatWindow() {
                 </p>
 
             </div>
+
+
+            {/* SHARE LINK MODAL */}
+            {showShareModal && (
+                <div
+                    className="shareModalOverlay"
+                    onClick={closeShareModal}
+                >
+                    <div
+                        className="shareModal"
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="shareModalTitle"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+
+                        <div className="shareModalHeader">
+                            <h3 id="shareModalTitle">
+                                Share conversation
+                            </h3>
+
+                            <button
+                                type="button"
+                                onClick={closeShareModal}
+                                aria-label="Close sharing popup"
+                            >
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <p>
+                            Anyone with this link can view your shared
+                            conversation.
+                        </p>
+
+                        <div className="shareUrlContainer">
+                            <input
+                                type="text"
+                                readOnly
+                                value={shareUrl}
+                                aria-label="Conversation sharing URL"
+                                onFocus={(e) => e.target.select()}
+                            />
+
+                            <button
+                                type="button"
+                                onClick={handleCopyShareLink}
+                            >
+                                <i
+                                    className={`fa-solid ${
+                                        copiedShareLink
+                                            ? "fa-check"
+                                            : "fa-copy"
+                                    }`}
+                                ></i>
+
+                                {copiedShareLink ? "Copied!" : "Copy link"}
+                            </button>
+                        </div>
+
+                        <button
+                            type="button"
+                            className="nativeShareButton"
+                            onClick={handleNativeShare}
+                        >
+                            <i className="fa-solid fa-share-nodes"></i>
+                            <span>Share via...</span>
+                        </button>
+
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }

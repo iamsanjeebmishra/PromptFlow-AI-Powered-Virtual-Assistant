@@ -1,12 +1,17 @@
-
 .sharedPage {
-    min-height: 100vh;
     width: 100%;
+    height: 100vh;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+
     background: #212121;
     color: #ececec;
     font-family: inherit;
-}
 
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
 .sharedNavbar {
     height: 65px;
     padding: 0 5%;
@@ -186,4 +191,15 @@
     .sharedUserMessage .sharedMessageContent {
         max-width: 95%;
     }
+}
+.sharedPage * {
+    box-sizing: border-box;
+}
+
+.sharedMessages {
+    padding-bottom: 20px;
+}
+
+.sharedFooter {
+    padding-bottom: 45px;
 }
