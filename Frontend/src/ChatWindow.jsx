@@ -267,7 +267,7 @@ function ChatWindow() {
 
         const messageForAI =
             currentPrompt ||
-            "Please analyze the attached image(s).";
+            "describe the content of the image";
 
         const optimisticMessageId = `pending-${Date.now()}`;
 
