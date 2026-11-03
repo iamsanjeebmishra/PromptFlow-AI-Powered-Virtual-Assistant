@@ -1,29 +1,484 @@
-.chats{
-    max-width: 700px;
-    overflow-y:scroll;
-    padding: 8rem;
 
+/* =================================
+   CHAT CONTENT CONTAINER
+================================= */
+
+.chatContent {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
-.userDiv{
-  display: flex;
-    justify-content: flex-end;
-    font-size: 0.9rem;
+
+/* =================================
+   WELCOME SCREEN
+================================= */
+
+.welcomeScreen {
+    width: 100%;
+    max-width: 850px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 24px;
+    text-align: center;
+    animation: welcomeAppear 0.35s ease;
 }
-.gptDiv{
-  text-align: left;
-    font-size: 0.9rem;
+
+.welcomeScreen h1 {
+    color: #ececec;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.8px;
+    margin-bottom: 12px;
 }
-.userMessage{
-  background-color: #243cc4;
-    padding: 10px 20px;
+
+.welcomeSubtitle {
+    color: #999999;
+    font-size: 14px;
+    margin-bottom: 35px;
+    line-height: 1.6;
+}
+
+@keyframes welcomeAppear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =================================
+   SUGGESTION CARDS
+================================= */
+
+.suggestionCards {
+    width: 100%;
+    max-width: 650px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.suggestionCard {
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 16px;
+    margin: 0;
+    border: 1px solid #333333;
     border-radius: 14px;
-    margin-left: 15rem;
-    max-width: 500px;
+    background-color: #171717;
+    color: #d6d6d6;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.suggestionCard i {
+    color: #aaaaaa;
+    font-size: 19px;
+}
+
+.suggestionCard span {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #d6d6d6;
+}
+
+.suggestionCard:hover {
+    background-color: #252525;
+    border-color: #555555;
+}
+
+/* =================================
+   CONVERSATION AREA
+   Scrollbar at far right
+================================= */
+
+.chats {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 30px 0 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    scrollbar-width: thin;
+    scrollbar-color: #444444 transparent;
+}
+
+.chats::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chats::-webkit-scrollbar-thumb {
+    background-color: #444444;
+    border-radius: 10px;
+}
+
+/* =================================
+   USER MESSAGE
+================================= */
+
+.userDiv {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 15px;
+}
+
+.userMessageContainer {
+    max-width: 75%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+}
+
+.userMessage {
     width: fit-content;
+    max-width: 100%;
+    padding: 12px 18px;
+    margin: 0;
+    border-radius: 20px;
+    background-color: #303030;
+    color: #ececec;
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: left;
+    overflow-wrap: anywhere;
 }
-.hljs{
-    border-radius: 16px !important;
+
+/* =================================
+   ASSISTANT MESSAGE
+================================= */
+
+.gptDiv {
+    width: 100%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: flex-start;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #ececec;
 }
-pre{
-    white-space: pre-wrap;
+
+.gptMessageContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.gptMessage {
+    width: 100%;
+    max-width: 100%;
+    color: #ececec;
+    overflow-wrap: anywhere;
+}
+
+.gptMessage p {
+    margin: 0 0 14px;
+    line-height: 1.7;
+}
+
+.gptMessage h1,
+.gptMessage h2,
+.gptMessage h3 {
+    margin: 20px 0 12px;
+    color: #ffffff;
+}
+
+.gptMessage ul,
+.gptMessage ol {
+    padding-left: 25px;
+    margin: 12px 0;
+}
+
+.gptMessage li {
+    margin-bottom: 7px;
+}
+
+.gptMessage strong {
+    color: #ffffff;
+}
+
+.gptMessage blockquote {
+    border-left: 3px solid #666666;
+    padding-left: 14px;
+    color: #bbbbbb;
+    margin: 15px 0;
+}
+
+/* =================================
+   MESSAGE ACTION BUTTONS
+================================= */
+
+.messageActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 2px 0 8px;
+}
+
+.messageActionButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 6px 9px;
+    border: none;
+    border-radius: 7px;
+    background: transparent;
+    color: #999999;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.messageActionButton i {
+    font-size: 13px;
+}
+
+.messageActionButton:hover {
+    background-color: #252525;
+    color: #ffffff;
+}
+
+/* Show user message actions on hover */
+
+.userMessageContainer .messageActions {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.userMessageContainer:hover .messageActions {
+    opacity: 1;
+}
+
+/* =================================
+   CODE EDITOR
+================================= */
+
+.codeEditor {
+    width: 100%;
+    max-width: 100%;
+    margin: 16px 0;
+    overflow: hidden;
+    border: 1px solid #555555;
+    border-radius: 22px;
+    background: #414141;
+}
+
+/* Editor toolbar */
+
+.codeEditorHeader {
+    min-height: 58px;
+    padding: 0 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #414141;
+}
+
+.codeEditorLanguage {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #eeeeee;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+.codeEditorLanguage i {
+    font-size: 19px;
+}
+
+.codeEditorActions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.codeEditorActions button {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #eeeeee;
+    font-size: 21px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.codeEditorActions button:hover {
+    background: #555555;
+}
+
+/* Editor code area */
+
+.codeEditorContent {
+    max-height: 450px;
+    overflow: auto;
+    padding: 18px 22px;
+    background: #414141;
+    scrollbar-width: thin;
+    scrollbar-color: #888888 transparent;
+}
+
+.codeEditorContent::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.codeEditorContent::-webkit-scrollbar-thumb {
+    background: #888888;
+    border-radius: 10px;
+}
+
+.codeEditorContent pre {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    white-space: pre;
+    overflow: visible;
+}
+
+.codeEditorContent pre code {
+    display: block;
+    background: transparent !important;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* =================================
+   INLINE CODE
+================================= */
+
+.gptMessage p code,
+.gptMessage li code {
+    font-family: "SFMono-Regular", Consolas, monospace;
+    background-color: #292929;
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.hljs {
+    border-radius: 12px !important;
+}
+
+/* =================================
+   RESPONSIVE DESIGN
+================================= */
+
+@media screen and (max-width: 768px) {
+
+    .welcomeScreen {
+        padding: 20px 16px;
+    }
+
+    .welcomeScreen h1 {
+        font-size: 25px;
+    }
+
+    .suggestionCards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 420px;
+    }
+
+    .suggestionCard {
+        min-height: 85px;
+    }
+
+    .userDiv,
+    .gptDiv {
+        padding: 0 16px;
+    }
+
+    .userMessageContainer {
+        max-width: 90%;
+    }
+
+    .userMessageContainer .messageActions {
+        opacity: 1;
+    }
+
+    .codeEditor {
+        border-radius: 18px;
+    }
+
+    .codeEditorHeader {
+        min-height: 54px;
+        padding: 0 16px;
+    }
+
+    .codeEditorLanguage {
+        font-size: 17px;
+    }
+
+    .codeEditorActions {
+        gap: 12px;
+    }
+
+    .codeEditorContent {
+        padding: 16px;
+    }
+
+    .codeEditorContent pre code {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+
+    .welcomeScreen h1 {
+        font-size: 22px;
+    }
+
+    .welcomeSubtitle {
+        font-size: 13px;
+    }
+
+    .suggestionCards {
+        gap: 8px;
+    }
+
+    .suggestionCard {
+        padding: 12px;
+    }
+
+    .codeEditorActions {
+        gap: 6px;
+    }
 }

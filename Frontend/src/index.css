@@ -1,0 +1,44 @@
+
+:root {
+    font-family: Roboto, "Open Sans", "Helvetica Neue", sans-serif;
+    color: #ececec;
+    background: #080808;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    width: 100%;
+    min-width: 320px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: #080808;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
+
+button {
+    color: inherit;
+}
+
+::selection {
+    background: #454545;
+    color: #ffffff;
+}
