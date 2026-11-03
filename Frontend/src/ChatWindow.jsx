@@ -11,6 +11,8 @@ import {
 } from "react";
 import { ScaleLoader } from "react-spinners";
 
+const API_BASE_URL = "http://localhost:8080/api";
+
 function ChatWindow() {
     const {
         prompt,
@@ -18,16 +20,23 @@ function ChatWindow() {
         reply,
         setReply,
         currThreadId,
+        prevChats,
         setPrevChats,
         setNewChat,
         setAllThreads
     } = useContext(MyContext);
 
     const [loading, setLoading] = useState(false);
+    const [isSharing, setIsSharing] = useState(false);
+
     const [isExpanded, setIsExpanded] = useState(false);
     const [showExpandButton, setShowExpandButton] = useState(false);
 
     const textareaRef = useRef(null);
+
+    // Prevent regeneration from appending a duplicate assistant message
+    const handledReplyRef = useRef(null);
+
 
     // Automatically resize the textarea
     const resizeTextarea = () => {
@@ -58,7 +67,6 @@ function ChatWindow() {
         textarea.style.overflowY =
             contentHeight > maxHeight ? "auto" : "hidden";
 
-        // Show expand button only when content exceeds normal height
         setShowExpandButton(contentHeight > minHeight + 8);
     };
 
@@ -66,15 +74,18 @@ function ChatWindow() {
         resizeTextarea();
     }, [prompt, isExpanded]);
 
+
     // Handle typing and pasting
     const handlePromptChange = (e) => {
         setPrompt(e.target.value);
     };
 
+
     // Toggle composer expansion
     const toggleExpansion = () => {
         setIsExpanded((previous) => !previous);
     };
+
 
     // Send prompt to backend
     const getReply = async () => {
@@ -98,7 +109,7 @@ function ChatWindow() {
 
         try {
             const response = await fetch(
-                "http://localhost:8080/api/chat",
+                `${API_BASE_URL}/chat`,
                 {
                     method: "POST",
                     headers: {
@@ -148,18 +159,156 @@ function ChatWindow() {
         }
     };
 
-    // Add assistant response to conversation
+
+    // Append a new assistant response only once
     useEffect(() => {
-        if (reply) {
-            setPrevChats((previousChats) => [
-                ...previousChats,
-                {
-                    role: "assistant",
-                    content: reply
-                }
-            ]);
+        if (!reply) {
+            handledReplyRef.current = null;
+            return;
         }
+
+        // Regenerated responses are already replaced in prevChats
+        if (handledReplyRef.current === reply) {
+            return;
+        }
+
+        handledReplyRef.current = reply;
+
+        setPrevChats((previousChats) => [
+            ...previousChats,
+            {
+                role: "assistant",
+                content: reply
+            }
+        ]);
     }, [reply, setPrevChats]);
+
+
+    // Regenerate the latest assistant response
+    const handleRegenerate = async () => {
+        if (loading || !currThreadId || !prevChats?.length) return;
+
+        const lastMessage = prevChats[prevChats.length - 1];
+
+        if (lastMessage?.role !== "assistant") return;
+
+        setLoading(true);
+
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/chat/${encodeURIComponent(currThreadId)}/regenerate`,
+                {
+                    method: "POST"
+                }
+            );
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(
+                    errorData.error || "Failed to regenerate response"
+                );
+            }
+
+            const data = await response.json();
+
+            // Mark the response as already handled by this component
+            handledReplyRef.current = data.reply;
+
+            // Replace the latest assistant response in React state
+            setPrevChats((previousChats) => {
+                const updatedChats = [...previousChats];
+                const lastIndex = updatedChats.length - 1;
+
+                if (updatedChats[lastIndex]?.role === "assistant") {
+                    updatedChats[lastIndex] = {
+                        ...updatedChats[lastIndex],
+                        content: data.reply
+                    };
+                }
+
+                return updatedChats;
+            });
+
+            // Chat.jsx uses reply changes to animate the latest response
+            setReply(data.reply);
+
+        } catch (error) {
+            console.error("Regenerate error:", error);
+            window.alert(error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    // Share the complete conversation
+    const handleShareConversation = async () => {
+        if (
+            isSharing ||
+            loading ||
+            !currThreadId ||
+            !prevChats?.length
+        ) {
+            return;
+        }
+
+        setIsSharing(true);
+
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/thread/${encodeURIComponent(currThreadId)}/share`,
+                {
+                    method: "POST"
+                }
+            );
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(
+                    errorData.error || "Failed to create share link"
+                );
+            }
+
+            const data = await response.json();
+
+            if (!data.shareId) {
+                throw new Error("Share link was not returned by the server");
+            }
+
+            const shareUrl =
+                `${window.location.origin}/share/${data.shareId}`;
+
+            // Use the native sharing menu when available
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: "PromptFlow conversation",
+                        text: "Check out this conversation on PromptFlow.",
+                        url: shareUrl
+                    });
+
+                    return;
+                } catch (shareError) {
+                    // Closing the native share menu is not an error
+                    if (shareError.name === "AbortError") {
+                        return;
+                    }
+                }
+            }
+
+            // Fallback: copy the link
+            await navigator.clipboard.writeText(shareUrl);
+
+            window.alert("Share link copied to clipboard.");
+
+        } catch (error) {
+            console.error("Share error:", error);
+            window.alert(error.message);
+        } finally {
+            setIsSharing(false);
+        }
+    };
+
 
     // Enter sends; Shift + Enter inserts a new line
     const handleKeyDown = (e) => {
@@ -173,21 +322,43 @@ function ChatWindow() {
         }
     };
 
+
     return (
         <div className="chatwindow">
 
             {/* Top navigation */}
             <div className="navbar">
+
                 <div className="modelName">
                     <span>PromptFlow</span>
                     <i className="fa-solid fa-chevron-down"></i>
                 </div>
+
+                {/* Share complete conversation */}
+                <button
+                    type="button"
+                    className="messageActionButton"
+                    style={{ marginLeft: "auto" }}
+                    onClick={handleShareConversation}
+                    disabled={!prevChats?.length || loading || isSharing}
+                    title="Share conversation"
+                    aria-label="Share conversation"
+                >
+                    <i className="fa-solid fa-share-nodes"></i>
+                    <span>{isSharing ? "Sharing..." : "Share"}</span>
+                </button>
+
             </div>
+
 
             {/* Main conversation area */}
             <div className="chatMain">
-                <Chat />
+                <Chat
+                    onRegenerate={handleRegenerate}
+                    loading={loading}
+                />
             </div>
+
 
             {/* Loading animation */}
             <div className="loadingArea">
@@ -200,6 +371,7 @@ function ChatWindow() {
                 />
             </div>
 
+
             {/* Prompt composer */}
             <div className="chatInput">
 
@@ -211,7 +383,7 @@ function ChatWindow() {
                     }}
                 >
 
-                    {/* Expand / Compress button - only when needed */}
+                    {/* Expand / Compress button */}
                     {showExpandButton && (
                         <button
                             type="button"
@@ -238,6 +410,7 @@ function ChatWindow() {
                         </button>
                     )}
 
+
                     {/* Prompt textarea */}
                     <textarea
                         ref={textareaRef}
@@ -249,6 +422,7 @@ function ChatWindow() {
                         rows={1}
                         disabled={loading}
                     />
+
 
                     {/* Bottom action row */}
                     <div className="composerActions">

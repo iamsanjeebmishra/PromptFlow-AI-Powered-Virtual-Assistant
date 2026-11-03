@@ -1,42 +1,70 @@
+
 import './App.css';
+
 import Sidebar from "./Sidebar.jsx";
 import ChatWindow from "./ChatWindow.jsx";
+import SharePage from "./SharePage.jsx";
+
 import { MyContext } from "./MyContext.jsx";
-import { useState } from 'react';
+import { useState } from "react";
 import { v1 as uuidv1 } from "uuid";
 
+
+// Main PromptFlow application
+function MainApp() {
+    const [prompt, setPrompt] = useState("");
+    const [reply, setReply] = useState(null);
+    const [currThreadId, setCurrThreadId] = useState(uuidv1());
+    const [prevChats, setPrevChats] = useState([]);
+    const [newChat, setNewChat] = useState(true);
+    const [allThreads, setAllThreads] = useState([]);
+
+    // All shared application states
+    const providerValues = {
+        prompt,
+        setPrompt,
+        reply,
+        setReply,
+        currThreadId,
+        setCurrThreadId,
+        newChat,
+        setNewChat,
+        prevChats,
+        setPrevChats,
+        allThreads,
+        setAllThreads
+    };
+
+    return (
+        <div className="app">
+            <MyContext.Provider value={providerValues}>
+                <Sidebar />
+                <ChatWindow />
+            </MyContext.Provider>
+        </div>
+    );
+}
+
+
+// Application entry point
 function App() {
-  const [prompt, setPrompt] = useState("");
-  const [reply, setReply] = useState(null);
-  const [currThreadId, setCurrThreadId] = useState(uuidv1());
-  const [prevChats, setPrevChats] = useState([]);
-  const [newChat, setNewChat] = useState(true);
-  const [allThreads, setAllThreads] = useState([]);
 
-  // All shared application states
-  const providerValues = {
-    prompt,
-    setPrompt,
-    reply,
-    setReply,
-    currThreadId,
-    setCurrThreadId,
-    newChat,
-    setNewChat,
-    prevChats,
-    setPrevChats,
-    allThreads,
-    setAllThreads
-  };
+    // Check whether the user opened a shared conversation
+    const shareMatch = window.location.pathname.match(
+        /^\/share\/([^/]+)\/?$/
+    );
 
-  return (
-    <div className="app">
-      <MyContext.Provider value={providerValues}>
-        <Sidebar />
-        <ChatWindow />
-      </MyContext.Provider>
-    </div>
-  );
+    // Display the shared conversation page
+    if (shareMatch) {
+        return (
+            <SharePage
+                shareId={decodeURIComponent(shareMatch[1])}
+            />
+        );
+    }
+
+    // Otherwise display the normal PromptFlow application
+    return <MainApp />;
 }
 
 export default App;

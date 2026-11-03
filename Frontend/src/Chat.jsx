@@ -1,10 +1,17 @@
 
 import "./Chat.css";
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, {
+    useContext,
+    useState,
+    useEffect,
+    useRef
+} from "react";
+
 import { MyContext } from "./MyContext.jsx";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
+
 
 function getTextFromNode(node) {
     if (typeof node === "string" || typeof node === "number") {
@@ -22,8 +29,14 @@ function getTextFromNode(node) {
     return "";
 }
 
-function Chat() {
-    const { newChat, prevChats, reply, setPrompt } = useContext(MyContext);
+
+function Chat({ onRegenerate, loading }) {
+    const {
+        newChat,
+        prevChats,
+        reply,
+        setPrompt
+    } = useContext(MyContext);
 
     const [latestReply, setLatestReply] = useState(null);
     const [copiedItem, setCopiedItem] = useState(null);
@@ -32,6 +45,7 @@ function Chat() {
     const shouldAutoScrollRef = useRef(true);
     const previousChatsRef = useRef(prevChats);
     const copiedTimeoutRef = useRef(null);
+
 
     // Animate the latest assistant response word by word
     useEffect(() => {
@@ -58,6 +72,7 @@ function Chat() {
 
         return () => clearInterval(interval);
     }, [prevChats, reply]);
+
 
     // Auto-scroll for new user messages and while at the bottom
     useEffect(() => {
@@ -86,6 +101,7 @@ function Chat() {
         }
     }, [prevChats, latestReply]);
 
+
     // Detect manual scrolling
     const handleChatScroll = () => {
         const container = chatContainerRef.current;
@@ -100,10 +116,12 @@ function Chat() {
         shouldAutoScrollRef.current = distanceFromBottom < 100;
     };
 
+
     // Clear copied confirmation timer
     useEffect(() => {
         return () => clearTimeout(copiedTimeoutRef.current);
     }, []);
+
 
     // Copy text
     const handleCopy = async (text, id) => {
@@ -117,12 +135,14 @@ function Chat() {
             copiedTimeoutRef.current = setTimeout(() => {
                 setCopiedItem(null);
             }, 1600);
+
         } catch (error) {
             console.error("Copy failed:", error);
         }
     };
 
-    // Share text using native sharing
+
+    // Share text (used for user messages and code snippets)
     const handleShare = async (text, id) => {
         try {
             if (navigator.share) {
@@ -140,10 +160,12 @@ function Chat() {
         }
     };
 
+
     // Suggestion actions
     const handleSuggestion = (suggestion) => {
         setPrompt(suggestion);
     };
+
 
     return (
         <div className="chatContent">
@@ -163,7 +185,9 @@ function Chat() {
 
                         <button
                             className="suggestionCard"
-                            onClick={() => handleSuggestion("Explain a difficult concept to me")}
+                            onClick={() =>
+                                handleSuggestion("Explain a difficult concept to me")
+                            }
                         >
                             <i className="fa-regular fa-lightbulb"></i>
                             <span>Explain something</span>
@@ -171,7 +195,9 @@ function Chat() {
 
                         <button
                             className="suggestionCard"
-                            onClick={() => handleSuggestion("Help me write some code")}
+                            onClick={() =>
+                                handleSuggestion("Help me write some code")
+                            }
                         >
                             <i className="fa-solid fa-code"></i>
                             <span>Write code</span>
@@ -179,7 +205,9 @@ function Chat() {
 
                         <button
                             className="suggestionCard"
-                            onClick={() => handleSuggestion("Help me debug my code")}
+                            onClick={() =>
+                                handleSuggestion("Help me debug my code")
+                            }
                         >
                             <i className="fa-solid fa-bug"></i>
                             <span>Debug code</span>
@@ -187,7 +215,9 @@ function Chat() {
 
                         <button
                             className="suggestionCard"
-                            onClick={() => handleSuggestion("Give me some creative ideas")}
+                            onClick={() =>
+                                handleSuggestion("Give me some creative ideas")
+                            }
                         >
                             <i className="fa-solid fa-wand-magic-sparkles"></i>
                             <span>Explore ideas</span>
@@ -220,6 +250,11 @@ function Chat() {
                         const messageId = `message-${idx}`;
                         let codeIndex = 0;
 
+                        // Hide actions while the latest response is animating
+                        const responseIsReady =
+                            !isLatestAssistant ||
+                            latestReply === chat.content;
+
                         return (
                             <div
                                 className={
@@ -249,11 +284,13 @@ function Chat() {
                                                     handleCopy(chat.content, messageId)
                                                 }
                                             >
-                                                <i className={`fa-regular ${
-                                                    copiedItem === messageId
-                                                        ? "fa-circle-check"
-                                                        : "fa-copy"
-                                                }`}></i>
+                                                <i
+                                                    className={`fa-regular ${
+                                                        copiedItem === messageId
+                                                            ? "fa-circle-check"
+                                                            : "fa-copy"
+                                                    }`}
+                                                ></i>
 
                                                 <span>
                                                     {copiedItem === messageId
@@ -267,7 +304,10 @@ function Chat() {
                                                 type="button"
                                                 title="Share message"
                                                 onClick={() =>
-                                                    handleShare(chat.content, `share-${messageId}`)
+                                                    handleShare(
+                                                        chat.content,
+                                                        `share-${messageId}`
+                                                    )
                                                 }
                                             >
                                                 <i className="fa-solid fa-share-nodes"></i>
@@ -290,16 +330,22 @@ function Chat() {
 
                                                     // Custom code editor
                                                     pre: ({ children }) => {
-                                                        const code = getTextFromNode(children);
+                                                        const code =
+                                                            getTextFromNode(children);
 
-                                                        const codeElement = React.Children.toArray(children)
-                                                            .find(child => React.isValidElement(child));
+                                                        const codeElement =
+                                                            React.Children.toArray(children)
+                                                                .find((child) =>
+                                                                    React.isValidElement(child)
+                                                                );
 
                                                         const codeClass =
                                                             codeElement?.props?.className || "";
 
                                                         const language =
-                                                            codeClass.match(/language-([\w-]+)/)?.[1] || "Code";
+                                                            codeClass.match(
+                                                                /language-([\w-]+)/
+                                                            )?.[1] || "Code";
 
                                                         const codeId =
                                                             `code-${idx}-${codeIndex++}`;
@@ -312,7 +358,9 @@ function Chat() {
 
                                                                     <div className="codeEditorLanguage">
                                                                         <i className="fa-solid fa-code"></i>
-                                                                        <span>{language.toUpperCase()}</span>
+                                                                        <span>
+                                                                            {language.toUpperCase()}
+                                                                        </span>
                                                                     </div>
 
                                                                     <div className="codeEditorActions">
@@ -321,7 +369,10 @@ function Chat() {
                                                                             type="button"
                                                                             title="Share code"
                                                                             onClick={() =>
-                                                                                handleShare(code, `share-${codeId}`)
+                                                                                handleShare(
+                                                                                    code,
+                                                                                    `share-${codeId}`
+                                                                                )
                                                                             }
                                                                         >
                                                                             <i className="fa-solid fa-arrow-right-from-bracket"></i>
@@ -334,11 +385,13 @@ function Chat() {
                                                                                 handleCopy(code, codeId)
                                                                             }
                                                                         >
-                                                                            <i className={`fa-regular ${
-                                                                                copiedItem === codeId
-                                                                                    ? "fa-circle-check"
-                                                                                    : "fa-copy"
-                                                                            }`}></i>
+                                                                            <i
+                                                                                className={`fa-regular ${
+                                                                                    copiedItem === codeId
+                                                                                        ? "fa-circle-check"
+                                                                                        : "fa-copy"
+                                                                                }`}
+                                                                            ></i>
                                                                         </button>
 
                                                                     </div>
@@ -358,8 +411,58 @@ function Chat() {
                                             </ReactMarkdown>
 
                                         </div>
-                                    </div>
 
+
+                                        {/* ASSISTANT MESSAGE ACTIONS */}
+                                        {responseIsReady && (
+                                            <div className="messageActions">
+
+                                                {/* Copy assistant response */}
+                                                <button
+                                                    className="messageActionButton"
+                                                    type="button"
+                                                    title="Copy response"
+                                                    onClick={() =>
+                                                        handleCopy(
+                                                            chat.content,
+                                                            messageId
+                                                        )
+                                                    }
+                                                >
+                                                    <i
+                                                        className={`fa-regular ${
+                                                            copiedItem === messageId
+                                                                ? "fa-circle-check"
+                                                                : "fa-copy"
+                                                        }`}
+                                                    ></i>
+
+                                                    <span>
+                                                        {copiedItem === messageId
+                                                            ? "Copied!"
+                                                            : "Copy"}
+                                                    </span>
+                                                </button>
+
+
+                                                {/* Regenerate only the latest response */}
+                                                {idx === prevChats.length - 1 && (
+                                                    <button
+                                                        className="messageActionButton"
+                                                        type="button"
+                                                        title="Regenerate response"
+                                                        onClick={onRegenerate}
+                                                        disabled={loading}
+                                                    >
+                                                        <i className="fa-solid fa-rotate-right"></i>
+                                                        <span>Regenerate</span>
+                                                    </button>
+                                                )}
+
+                                            </div>
+                                        )}
+
+                                    </div>
                                 )}
 
                             </div>

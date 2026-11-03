@@ -1,0 +1,189 @@
+
+.sharedPage {
+    min-height: 100vh;
+    width: 100%;
+    background: #212121;
+    color: #ececec;
+    font-family: inherit;
+}
+
+.sharedNavbar {
+    height: 65px;
+    padding: 0 5%;
+    border-bottom: 1px solid #383838;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sharedBrand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.sharedBrand i {
+    font-size: 20px;
+}
+
+.sharedLabel {
+    color: #aaa;
+    font-size: 13px;
+}
+
+.sharedMain {
+    width: min(800px, 90%);
+    margin: 45px auto;
+}
+
+.sharedConversationHeader {
+    padding-bottom: 25px;
+    border-bottom: 1px solid #383838;
+    margin-bottom: 30px;
+}
+
+.sharedConversationHeader h1 {
+    font-size: 27px;
+    font-weight: 600;
+    margin: 0 0 10px;
+    overflow-wrap: anywhere;
+}
+
+.sharedConversationHeader p {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.sharedMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.sharedUserMessage,
+.sharedAssistantMessage {
+    width: 100%;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.sharedUserMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.sharedUserMessage .sharedMessageContent {
+    max-width: 85%;
+    padding: 12px 17px;
+    background: #303030;
+    border-radius: 18px;
+}
+
+.sharedAssistantMessage .sharedMessageContent {
+    width: 100%;
+}
+
+.sharedRole {
+    color: #aaa;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+.sharedMessageContent p {
+    margin: 8px 0;
+}
+
+.sharedMessageContent pre {
+    background: #161616;
+    padding: 15px;
+    overflow-x: auto;
+    border-radius: 9px;
+}
+
+.sharedMessageContent code {
+    font-family: monospace;
+}
+
+.sharedMessageContent table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 15px 0;
+}
+
+.sharedMessageContent th,
+.sharedMessageContent td {
+    border: 1px solid #555;
+    padding: 9px;
+    text-align: left;
+}
+
+.sharedMessageContent blockquote {
+    border-left: 3px solid #777;
+    padding-left: 15px;
+    color: #bbb;
+}
+
+.sharedFooter {
+    text-align: center;
+    color: #888;
+    font-size: 12px;
+    padding: 45px 0 25px;
+}
+
+.sharedStatus {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    padding: 20px;
+}
+
+.sharedStatus i {
+    font-size: 30px;
+    color: #aaa;
+}
+
+.sharedStatus p {
+    color: #aaa;
+}
+
+.sharedSpinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid #555;
+    border-top-color: #eee;
+    border-radius: 50%;
+    animation: sharedSpin 0.8s linear infinite;
+}
+
+@keyframes sharedSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 600px) {
+    .sharedNavbar {
+        padding: 0 18px;
+    }
+
+    .sharedMain {
+        width: 92%;
+        margin: 28px auto;
+    }
+
+    .sharedConversationHeader h1 {
+        font-size: 22px;
+    }
+
+    .sharedUserMessage .sharedMessageContent {
+        max-width: 95%;
+    }
+}
