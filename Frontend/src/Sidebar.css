@@ -702,3 +702,37 @@ html[data-theme="light"] .historySection h4 span {
     color: #59636e !important;
     opacity: 1 !important;
 }
+/* =================================
+   PROMPTFLOW BRAND LOGO ALIGNMENT
+================================= */
+
+.sidebarBrand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    line-height: 1;
+}
+
+.sidebarBrand .logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 29px;
+    height: 29px;
+    flex: 0 0 29px;
+
+    font-size: 24px;
+    line-height: 1;
+
+    color: #22C55E;
+
+    object-fit: unset;
+    border-radius: 0;
+}
+
+.sidebarBrand span {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}

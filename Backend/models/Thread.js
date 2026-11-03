@@ -1,6 +1,26 @@
 
 import mongoose from "mongoose";
 
+const ImageSchema = new mongoose.Schema({
+    fileId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    filename: {
+        type: String,
+        required: true
+    },
+    mimeType: {
+        type: String,
+        required: true
+    },
+    size: {
+        type: Number,
+        required: true
+    }
+}, { _id: false });
+
+
 const MessageSchema = new mongoose.Schema({
     role: {
         type: String,
@@ -11,6 +31,10 @@ const MessageSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    images: {
+        type: [ImageSchema],
+        default: []
+    },
     timestamp: {
         type: Date,
         default: Date.now
@@ -19,7 +43,6 @@ const MessageSchema = new mongoose.Schema({
 
 
 const ThreadSchema = new mongoose.Schema({
-    // Associate every conversation with its owner
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import "./AuthPage.css";
 
@@ -71,7 +70,10 @@ function AuthPage({ onAuthSuccess, initialMode = "login" }) {
             <div className="authCard">
 
                 <div className="authBrand">
-                    <i className="fa-solid fa-comments"></i>
+                    <i
+                        className="fa-solid fa-comments"
+                        style={{ color: "#22C55E" }}
+                    ></i>
                     <span>PromptFlow</span>
                 </div>
 

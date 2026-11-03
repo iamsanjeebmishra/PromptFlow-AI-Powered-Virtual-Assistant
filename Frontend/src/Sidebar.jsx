@@ -3,7 +3,6 @@ import "./Sidebar.css";
 import { useContext, useEffect, useState } from "react";
 import { MyContext } from "./MyContext.jsx";
 import { v1 as uuidv1 } from "uuid";
-import logo from "./assets/blacklogo.png";
 
 const API_BASE_URL = "http://localhost:8080/api";
 
@@ -380,11 +379,12 @@ function Sidebar() {
             <div className="sidebarHeader">
 
                 <div className="sidebarBrand">
-                    <img
-                        src={logo}
-                        alt="PromptFlow"
-                        className="logo"
-                    />
+                    <i
+                        className="fa-solid fa-comments logo"
+                        aria-label="PromptFlow logo"
+                        role="img"
+                        style={{ color: "#22C55E" }}
+                    ></i>
                     <span>PromptFlow</span>
                 </div>
 

@@ -41,14 +41,26 @@ function Chat({ onRegenerate, loading }) {
 
     const isLightTheme = theme === "light";
 
-    // Explicit light-theme colors prevent Chat.css defaults from fading
-    // assistant Markdown text and message action controls.
-    const markdownTextStyle = isLightTheme ? { color: "#20242a" } : undefined;
-    const actionButtonStyle = isLightTheme
-        ? { color: "#59636f", backgroundColor: "transparent", opacity: 1 }
+    // Explicit light-theme colors
+    const markdownTextStyle = isLightTheme
+        ? { color: "#20242a" }
         : undefined;
-    const actionIconStyle = isLightTheme ? { color: "#59636f", opacity: 1 } : undefined;
-    const actionTextStyle = isLightTheme ? { color: "#59636f", opacity: 1 } : undefined;
+
+    const actionButtonStyle = isLightTheme
+        ? {
+            color: "#59636f",
+            backgroundColor: "transparent",
+            opacity: 1
+        }
+        : undefined;
+
+    const actionIconStyle = isLightTheme
+        ? { color: "#59636f", opacity: 1 }
+        : undefined;
+
+    const actionTextStyle = isLightTheme
+        ? { color: "#59636f", opacity: 1 }
+        : undefined;
 
     const [latestReply, setLatestReply] = useState(null);
     const [copiedItem, setCopiedItem] = useState(null);
@@ -59,7 +71,7 @@ function Chat({ onRegenerate, loading }) {
     const copiedTimeoutRef = useRef(null);
 
 
-    // Animate the latest assistant response word by word
+    // Animate latest assistant response word by word
     useEffect(() => {
         if (!reply) {
             setLatestReply(null);
@@ -74,7 +86,10 @@ function Chat({ onRegenerate, loading }) {
         setLatestReply("");
 
         const interval = setInterval(() => {
-            setLatestReply(words.slice(0, index + 1).join(" "));
+            setLatestReply(
+                words.slice(0, index + 1).join(" ")
+            );
+
             index++;
 
             if (index >= words.length) {
@@ -86,7 +101,7 @@ function Chat({ onRegenerate, loading }) {
     }, [prevChats, reply]);
 
 
-    // Auto-scroll for new user messages and while at the bottom
+    // Auto-scroll
     useEffect(() => {
         const container = chatContainerRef.current;
 
@@ -95,12 +110,13 @@ function Chat({ onRegenerate, loading }) {
             return;
         }
 
-        const chatsChanged = previousChatsRef.current !== prevChats;
+        const chatsChanged =
+            previousChatsRef.current !== prevChats;
 
         if (chatsChanged) {
-            const lastChat = prevChats?.[prevChats.length - 1];
+            const lastChat =
+                prevChats?.[prevChats.length - 1];
 
-            // Always jump to a newly submitted user message
             if (lastChat?.role === "user") {
                 shouldAutoScrollRef.current = true;
             }
@@ -125,7 +141,8 @@ function Chat({ onRegenerate, loading }) {
             container.scrollTop -
             container.clientHeight;
 
-        shouldAutoScrollRef.current = distanceFromBottom < 100;
+        shouldAutoScrollRef.current =
+            distanceFromBottom < 100;
     };
 
 
@@ -138,7 +155,7 @@ function Chat({ onRegenerate, loading }) {
     // Copy text
     const handleCopy = async (text, id) => {
         try {
-            await navigator.clipboard.writeText(text);
+            await navigator.clipboard.writeText(text || "");
 
             setCopiedItem(id);
 
@@ -154,17 +171,18 @@ function Chat({ onRegenerate, loading }) {
     };
 
 
-    // Share text (used for user messages and code snippets)
+    // Share text
     const handleShare = async (text, id) => {
         try {
             if (navigator.share) {
                 await navigator.share({
                     title: "Shared from PromptFlow",
-                    text
+                    text: text || ""
                 });
             } else {
                 await handleCopy(text, id);
             }
+
         } catch (error) {
             if (error.name !== "AbortError") {
                 console.error("Share failed:", error);
@@ -180,7 +198,13 @@ function Chat({ onRegenerate, loading }) {
 
 
     return (
-        <div className={`chatContent ${isLightTheme ? "chatContentLight" : "chatContentDark"}`}>
+        <div
+            className={`chatContent ${
+                isLightTheme
+                    ? "chatContentLight"
+                    : "chatContentDark"
+            }`}
+        >
 
             {/* WELCOME SCREEN */}
             {newChat && prevChats.length === 0 ? (
@@ -198,7 +222,9 @@ function Chat({ onRegenerate, loading }) {
                         <button
                             className="suggestionCard"
                             onClick={() =>
-                                handleSuggestion("Explain a difficult concept to me")
+                                handleSuggestion(
+                                    "Explain a difficult concept to me"
+                                )
                             }
                         >
                             <i className="fa-regular fa-lightbulb"></i>
@@ -208,7 +234,9 @@ function Chat({ onRegenerate, loading }) {
                         <button
                             className="suggestionCard"
                             onClick={() =>
-                                handleSuggestion("Help me write some code")
+                                handleSuggestion(
+                                    "Help me write some code"
+                                )
                             }
                         >
                             <i className="fa-solid fa-code"></i>
@@ -218,7 +246,9 @@ function Chat({ onRegenerate, loading }) {
                         <button
                             className="suggestionCard"
                             onClick={() =>
-                                handleSuggestion("Help me debug my code")
+                                handleSuggestion(
+                                    "Help me debug my code"
+                                )
                             }
                         >
                             <i className="fa-solid fa-bug"></i>
@@ -228,7 +258,9 @@ function Chat({ onRegenerate, loading }) {
                         <button
                             className="suggestionCard"
                             onClick={() =>
-                                handleSuggestion("Give me some creative ideas")
+                                handleSuggestion(
+                                    "Give me some creative ideas"
+                                )
                             }
                         >
                             <i className="fa-solid fa-wand-magic-sparkles"></i>
@@ -255,14 +287,15 @@ function Chat({ onRegenerate, loading }) {
                             reply !== null;
 
                         const messageContent =
-                            isLatestAssistant && latestReply !== null
+                            isLatestAssistant &&
+                            latestReply !== null
                                 ? latestReply
                                 : chat.content;
 
                         const messageId = `message-${idx}`;
+
                         let codeIndex = 0;
 
-                        // Hide actions while the latest response is animating
                         const responseIsReady =
                             !isLatestAssistant ||
                             latestReply === chat.content;
@@ -282,13 +315,87 @@ function Chat({ onRegenerate, loading }) {
 
                                     <div className="userMessageContainer">
 
-                                        <p className="userMessage">
-                                            {chat.content}
-                                        </p>
+                                        {/* User message text */}
+                                        {typeof chat.content === "string" &&
+                                            chat.content.trim() && (
+                                                <p className="userMessage">
+                                                    {chat.content}
+                                                </p>
+                                            )
+                                        }
 
+                                        {/* USER IMAGE ATTACHMENTS */}
+                                        {Array.isArray(chat.images) &&
+                                            chat.images.length > 0 && (
+
+                                                <div className="userMessageImages">
+
+                                                    {chat.images.map(
+                                                        (image, imageIndex) => {
+
+                                                            // New upload uses dataUrl.
+                                                            // Loaded history uses image.url.
+                                                            const imageSrc =
+                                                                image.dataUrl ||
+                                                                image.url;
+
+                                                            if (!imageSrc) {
+                                                                return null;
+                                                            }
+
+                                                            return (
+                                                                <a
+                                                                    className="userMessageImageLink"
+                                                                    href={imageSrc}
+                                                                    target="_blank"
+                                                                    rel="noreferrer"
+                                                                    key={
+                                                                        image.fileId ||
+                                                                        image.id ||
+                                                                        `${messageId}-image-${imageIndex}`
+                                                                    }
+                                                                    title={
+                                                                        image.name ||
+                                                                        image.filename ||
+                                                                        "Open attached image"
+                                                                    }
+                                                                >
+                                                                    <img
+                                                                        className="userMessageImage"
+                                                                        src={imageSrc}
+                                                                        alt={
+                                                                            image.name ||
+                                                                            image.filename ||
+                                                                            `Attached image ${imageIndex + 1}`
+                                                                        }
+                                                                        loading="lazy"
+                                                                        decoding="async"
+                                                                        crossOrigin={
+                                                                            image.dataUrl
+                                                                                ? undefined
+                                                                                : "use-credentials"
+                                                                        }
+                                                                    />
+                                                                </a>
+                                                            );
+                                                        }
+                                                    )}
+
+                                                </div>
+                                            )
+                                        }
+
+                                        {/* USER MESSAGE ACTIONS */}
                                         <div
                                             className="messageActions"
-                                            style={isLightTheme ? { opacity: 1, visibility: "visible" } : undefined}
+                                            style={
+                                                isLightTheme
+                                                    ? {
+                                                        opacity: 1,
+                                                        visibility: "visible"
+                                                    }
+                                                    : undefined
+                                            }
                                         >
 
                                             <button
@@ -297,7 +404,10 @@ function Chat({ onRegenerate, loading }) {
                                                 type="button"
                                                 title="Copy message"
                                                 onClick={() =>
-                                                    handleCopy(chat.content, messageId)
+                                                    handleCopy(
+                                                        chat.content,
+                                                        messageId
+                                                    )
                                                 }
                                             >
                                                 <i
@@ -328,8 +438,14 @@ function Chat({ onRegenerate, loading }) {
                                                     )
                                                 }
                                             >
-                                                <i className="fa-solid fa-share-nodes" style={actionIconStyle}></i>
-                                                <span style={actionTextStyle}>Share</span>
+                                                <i
+                                                    className="fa-solid fa-share-nodes"
+                                                    style={actionIconStyle}
+                                                ></i>
+
+                                                <span style={actionTextStyle}>
+                                                    Share
+                                                </span>
                                             </button>
 
                                         </div>
@@ -343,37 +459,124 @@ function Chat({ onRegenerate, loading }) {
                                         <div className="gptMessage">
 
                                             <ReactMarkdown
-                                                rehypePlugins={[rehypeHighlight]}
+                                                rehypePlugins={[
+                                                    rehypeHighlight
+                                                ]}
                                                 components={{
-                                                    // Keep ordinary Markdown text readable in light mode.
-                                                    p: ({ children }) => <p style={markdownTextStyle}>{children}</p>,
-                                                    h1: ({ children }) => <h1 style={markdownTextStyle}>{children}</h1>,
-                                                    h2: ({ children }) => <h2 style={markdownTextStyle}>{children}</h2>,
-                                                    h3: ({ children }) => <h3 style={markdownTextStyle}>{children}</h3>,
-                                                    h4: ({ children }) => <h4 style={markdownTextStyle}>{children}</h4>,
-                                                    h5: ({ children }) => <h5 style={markdownTextStyle}>{children}</h5>,
-                                                    h6: ({ children }) => <h6 style={markdownTextStyle}>{children}</h6>,
-                                                    ul: ({ children }) => <ul style={markdownTextStyle}>{children}</ul>,
-                                                    ol: ({ children }) => <ol style={markdownTextStyle}>{children}</ol>,
-                                                    li: ({ children }) => <li style={markdownTextStyle}>{children}</li>,
-                                                    blockquote: ({ children }) => <blockquote style={markdownTextStyle}>{children}</blockquote>,
-                                                    strong: ({ children }) => <strong style={markdownTextStyle}>{children}</strong>,
-                                                    em: ({ children }) => <em style={markdownTextStyle}>{children}</em>,
+
+                                                    // Markdown readability
+                                                    p: ({ children }) => (
+                                                        <p style={markdownTextStyle}>
+                                                            {children}
+                                                        </p>
+                                                    ),
+
+                                                    h1: ({ children }) => (
+                                                        <h1 style={markdownTextStyle}>
+                                                            {children}
+                                                        </h1>
+                                                    ),
+
+                                                    h2: ({ children }) => (
+                                                        <h2 style={markdownTextStyle}>
+                                                            {children}
+                                                        </h2>
+                                                    ),
+
+                                                    h3: ({ children }) => (
+                                                        <h3 style={markdownTextStyle}>
+                                                            {children}
+                                                        </h3>
+                                                    ),
+
+                                                    h4: ({ children }) => (
+                                                        <h4 style={markdownTextStyle}>
+                                                            {children}
+                                                        </h4>
+                                                    ),
+
+                                                    h5: ({ children }) => (
+                                                        <h5 style={markdownTextStyle}>
+                                                            {children}
+                                                        </h5>
+                                                    ),
+
+                                                    h6: ({ children }) => (
+                                                        <h6 style={markdownTextStyle}>
+                                                            {children}
+                                                        </h6>
+                                                    ),
+
+                                                    ul: ({ children }) => (
+                                                        <ul style={markdownTextStyle}>
+                                                            {children}
+                                                        </ul>
+                                                    ),
+
+                                                    ol: ({ children }) => (
+                                                        <ol style={markdownTextStyle}>
+                                                            {children}
+                                                        </ol>
+                                                    ),
+
+                                                    li: ({ children }) => (
+                                                        <li style={markdownTextStyle}>
+                                                            {children}
+                                                        </li>
+                                                    ),
+
+                                                    blockquote: ({ children }) => (
+                                                        <blockquote style={markdownTextStyle}>
+                                                            {children}
+                                                        </blockquote>
+                                                    ),
+
+                                                    strong: ({ children }) => (
+                                                        <strong style={markdownTextStyle}>
+                                                            {children}
+                                                        </strong>
+                                                    ),
+
+                                                    em: ({ children }) => (
+                                                        <em style={markdownTextStyle}>
+                                                            {children}
+                                                        </em>
+                                                    ),
+
                                                     a: ({ children, href }) => (
-                                                        <a href={href} style={isLightTheme ? { color: "#245fa8" } : undefined}>
+                                                        <a
+                                                            href={href}
+                                                            style={
+                                                                isLightTheme
+                                                                    ? { color: "#245fa8" }
+                                                                    : undefined
+                                                            }
+                                                        >
                                                             {children}
                                                         </a>
                                                     ),
-                                                    th: ({ children }) => <th style={markdownTextStyle}>{children}</th>,
-                                                    td: ({ children }) => <td style={markdownTextStyle}>{children}</td>,
+
+                                                    th: ({ children }) => (
+                                                        <th style={markdownTextStyle}>
+                                                            {children}
+                                                        </th>
+                                                    ),
+
+                                                    td: ({ children }) => (
+                                                        <td style={markdownTextStyle}>
+                                                            {children}
+                                                        </td>
+                                                    ),
 
                                                     // Custom code editor
                                                     pre: ({ children }) => {
+
                                                         const code =
                                                             getTextFromNode(children);
 
                                                         const codeElement =
-                                                            React.Children.toArray(children)
+                                                            React.Children
+                                                                .toArray(children)
                                                                 .find((child) =>
                                                                     React.isValidElement(child)
                                                                 );
@@ -397,6 +600,7 @@ function Chat({ onRegenerate, loading }) {
 
                                                                     <div className="codeEditorLanguage">
                                                                         <i className="fa-solid fa-code"></i>
+
                                                                         <span>
                                                                             {language.toUpperCase()}
                                                                         </span>
@@ -421,7 +625,10 @@ function Chat({ onRegenerate, loading }) {
                                                                             type="button"
                                                                             title="Copy code"
                                                                             onClick={() =>
-                                                                                handleCopy(code, codeId)
+                                                                                handleCopy(
+                                                                                    code,
+                                                                                    codeId
+                                                                                )
                                                                             }
                                                                         >
                                                                             <i
@@ -454,9 +661,17 @@ function Chat({ onRegenerate, loading }) {
 
                                         {/* ASSISTANT MESSAGE ACTIONS */}
                                         {responseIsReady && (
+
                                             <div
                                                 className="messageActions"
-                                                style={isLightTheme ? { opacity: 1, visibility: "visible" } : undefined}
+                                                style={
+                                                    isLightTheme
+                                                        ? {
+                                                            opacity: 1,
+                                                            visibility: "visible"
+                                                        }
+                                                        : undefined
+                                                }
                                             >
 
                                                 {/* Copy assistant response */}
@@ -488,9 +703,9 @@ function Chat({ onRegenerate, loading }) {
                                                     </span>
                                                 </button>
 
-
-                                                {/* Regenerate only the latest response */}
+                                                {/* Regenerate latest response */}
                                                 {idx === prevChats.length - 1 && (
+
                                                     <button
                                                         className="messageActionButton"
                                                         style={actionButtonStyle}
@@ -499,8 +714,14 @@ function Chat({ onRegenerate, loading }) {
                                                         onClick={onRegenerate}
                                                         disabled={loading}
                                                     >
-                                                        <i className="fa-solid fa-rotate-right" style={actionIconStyle}></i>
-                                                        <span style={actionTextStyle}>Regenerate</span>
+                                                        <i
+                                                            className="fa-solid fa-rotate-right"
+                                                            style={actionIconStyle}
+                                                        ></i>
+
+                                                        <span style={actionTextStyle}>
+                                                            Regenerate
+                                                        </span>
                                                     </button>
                                                 )}
 

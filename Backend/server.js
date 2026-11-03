@@ -15,16 +15,14 @@ const PORT = process.env.PORT || 8080;
 
 const isProduction = process.env.NODE_ENV === "production";
 
-
 // Trust hosting proxy in production
 if (isProduction) {
     app.set("trust proxy", 1);
 }
 
-
 // Parse incoming JSON
-app.use(express.json());
-
+// Increased limit to support Base64 image uploads
+app.use(express.json({ limit: "16mb" }));
 
 // CORS configuration
 const allowedOrigins = [
@@ -46,7 +44,6 @@ app.use(
     })
 );
 
-
 // Connect MongoDB and start server
 const startServer = async () => {
     try {
@@ -63,7 +60,6 @@ const startServer = async () => {
 
         console.log("Successfully connected to MongoDB");
 
-
         // MongoDB session store
         const sessionStore = MongoStore.create({
             client: mongoose.connection.getClient(),
@@ -71,7 +67,6 @@ const startServer = async () => {
             ttl: 14 * 24 * 60 * 60,
             autoRemove: "native"
         });
-
 
         // Express session configuration
         app.use(
@@ -91,7 +86,6 @@ const startServer = async () => {
             })
         );
 
-
         // Configure Passport Local Strategy
         configurePassport(passport);
 
@@ -102,9 +96,9 @@ const startServer = async () => {
         app.use(passport.session());
 
         app.use("/api/auth", authRoutes);
+
         // Existing chat routes
         app.use("/api", chatRoutes);
-
 
         // Start server
         app.listen(PORT, () => {
@@ -116,6 +110,5 @@ const startServer = async () => {
         process.exit(1);
     }
 };
-
 
 startServer();
