@@ -16,7 +16,9 @@ import {
 
 import { ScaleLoader } from "react-spinners";
 
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL ||
+    "http://localhost:8080/api";
 
 const MAX_IMAGES = 3;
 const MAX_IMAGE_SIZE = 3 * 1024 * 1024;

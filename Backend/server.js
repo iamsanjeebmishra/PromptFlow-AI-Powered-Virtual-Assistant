@@ -1,3 +1,4 @@
+
 import authRoutes from "./routes/auth.js";
 import express from "express";
 import "dotenv/config";
@@ -28,8 +29,11 @@ app.use(express.json({ limit: "16mb" }));
 const allowedOrigins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "http://localhost:3000"
-];
+    "http://localhost:3000",
+    process.env.FRONTEND_URL
+]
+    .filter(Boolean)
+    .map((origin) => origin.trim().replace(/\/+$/, ""));
 
 app.use(
     cors({

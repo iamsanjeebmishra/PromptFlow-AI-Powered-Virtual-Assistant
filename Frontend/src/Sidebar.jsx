@@ -4,7 +4,9 @@ import { useContext, useEffect, useState } from "react";
 import { MyContext } from "./MyContext.jsx";
 import { v1 as uuidv1 } from "uuid";
 
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL ||
+    "http://localhost:8080/api";
 
 
 // Generate initials from user's name
