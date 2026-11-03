@@ -1,0 +1,23 @@
+we are going to do backend in 3 steps
+1. models- what to store in database
+2.util- functions for utility main getting resposne from openapi
+3.routes- add all routes using express router and restapi will use
+
+1. models
+we  need to store history of all charts. Then we want title and msg and time.
+we use thread, every indivisual chart is a thread
+all indivisual seq of req-resp is called a thread 
+we need to create thread schema
+   it should consist of threadId, title,messages
+   inside msg it should be store role and content so we need to create separate schema
+   createdAt and updatedAt
+
+message schema
+   content
+   role-> may be by "user or assistance"
+   timestamp
+     
+
+we can create all inside the server.js but its better to use a part
+
+2. utils

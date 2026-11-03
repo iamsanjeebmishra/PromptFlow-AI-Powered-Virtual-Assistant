@@ -1,0 +1,13 @@
+Routes: chat.js
+
+1. GET/thread-> return all threads so that we can display in side bar as history on title basis we sort on basis of updated time
+
+
+2. GET/thread/:threadId-> this will return all message of specific thread 
+3. DELETE/thread/:threadId-> delete indivisual threads
+4. POST/chat-> create new message + get reply from api and store in database
+        if we send msg it may possible either 1st msg or existing msg so post method to backend
+     1. validate thread id and messages
+     2.if thread id is not in db then we crate new thread
+     3. save the message(user) in thread also store the reply in db and return to frontend
+     
