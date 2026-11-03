@@ -1,0 +1,152 @@
+
+.profilePage {
+    flex: 1;
+    min-width: 0;
+    height: 100vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 40px;
+    background: #0a0a0a;
+    color: #f5f5f5;
+}
+
+.profilePageInner {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.profileBackButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid #303030;
+    border-radius: 10px;
+    background: transparent;
+    color: #c5c5c5;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.profileBackButton:hover {
+    background: #1b1b1b;
+}
+
+.profilePageHeading {
+    margin: 38px 0 28px;
+}
+
+.profilePageHeading h1 {
+    margin: 0 0 9px;
+    font-size: 30px;
+    font-weight: 650;
+}
+
+.profilePageHeading p {
+    margin: 0;
+    color: #999;
+    font-size: 14px;
+}
+
+.profileOverviewCard {
+    padding: 28px;
+    border: 1px solid #303030;
+    border-radius: 18px;
+    background: #151515;
+}
+
+.profileOverviewHeader {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profileLargeAvatar {
+    width: 76px;
+    height: 76px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #788e90;
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.profileLargeAvatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profileOverviewIdentity h2 {
+    margin: 0 0 7px;
+    font-size: 21px;
+    font-weight: 600;
+}
+
+.profileOverviewIdentity p {
+    margin: 0;
+    color: #999;
+    font-size: 14px;
+}
+
+.profileCardDivider {
+    height: 1px;
+    margin: 28px 0;
+    background: #303030;
+}
+
+.profileOverviewCard h3 {
+    margin: 0 0 22px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.profileDetailsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.profileDetail {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 17px;
+    border: 1px solid #303030;
+    border-radius: 12px;
+    background: #1d1d1d;
+    min-width: 0;
+}
+
+.profileDetail span {
+    color: #999;
+    font-size: 13px;
+}
+
+.profileDetail strong {
+    color: #ededed;
+    font-size: 14px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 650px) {
+    .profilePage {
+        padding: 24px 18px;
+    }
+
+    .profileOverviewCard {
+        padding: 20px;
+    }
+
+    .profileDetailsGrid {
+        grid-template-columns: 1fr;
+    }
+}

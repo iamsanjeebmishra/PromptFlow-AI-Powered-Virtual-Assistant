@@ -27,7 +27,16 @@ function ChatWindow() {
         prevChats,
         setPrevChats,
         setNewChat,
-        setAllThreads
+        setAllThreads,
+
+        // Authentication context
+        user,
+        setUser,
+        setShowAuth,
+        setAuthMode,
+
+        // Chat preferences
+        enterToSend = true
     } = useContext(MyContext);
 
     const [loading, setLoading] = useState(false);
@@ -45,6 +54,13 @@ function ChatWindow() {
 
     // Prevent regeneration from appending duplicate messages
     const handledReplyRef = useRef(null);
+
+
+    // Redirect guests to login without losing their prompt
+    const requireLogin = () => {
+        setAuthMode("login");
+        setShowAuth(true);
+    };
 
 
     // Automatically resize textarea
@@ -79,6 +95,7 @@ function ChatWindow() {
         setShowExpandButton(contentHeight > minHeight + 8);
     };
 
+
     useLayoutEffect(() => {
         resizeTextarea();
     }, [prompt, isExpanded]);
@@ -102,6 +119,13 @@ function ChatWindow() {
 
         if (!currentPrompt || loading) return;
 
+        // Guest must log in before sending
+        // Keep the original prompt intact
+        if (!user) {
+            requireLogin();
+            return;
+        }
+
         setLoading(true);
         setNewChat(false);
         setPrompt("");
@@ -121,6 +145,7 @@ function ChatWindow() {
                 `${API_BASE_URL}/chat`,
                 {
                     method: "POST",
+                    credentials: "include",
                     headers: {
                         "Content-Type": "application/json"
                     },
@@ -130,6 +155,12 @@ function ChatWindow() {
                     })
                 }
             );
+
+            if (response.status === 401) {
+                setUser(null);
+                requireLogin();
+                return;
+            }
 
             if (!response.ok) {
                 throw new Error("Failed to get response from server");
@@ -163,6 +194,7 @@ function ChatWindow() {
 
         } catch (error) {
             console.error("Error getting reply:", error);
+            window.alert(error.message);
         } finally {
             setLoading(false);
         }
@@ -195,6 +227,12 @@ function ChatWindow() {
 
     // Regenerate the latest assistant response
     const handleRegenerate = async () => {
+
+        if (!user) {
+            requireLogin();
+            return;
+        }
+
         if (loading || !currThreadId || !prevChats?.length) return;
 
         const lastMessage = prevChats[prevChats.length - 1];
@@ -207,9 +245,16 @@ function ChatWindow() {
             const response = await fetch(
                 `${API_BASE_URL}/chat/${encodeURIComponent(currThreadId)}/regenerate`,
                 {
-                    method: "POST"
+                    method: "POST",
+                    credentials: "include"
                 }
             );
+
+            if (response.status === 401) {
+                setUser(null);
+                requireLogin();
+                return;
+            }
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -251,6 +296,12 @@ function ChatWindow() {
 
     // Create a shareable conversation URL
     const handleShareConversation = async () => {
+
+        if (!user) {
+            requireLogin();
+            return;
+        }
+
         if (
             isSharing ||
             loading ||
@@ -266,11 +317,18 @@ function ChatWindow() {
             const response = await fetch(
                 `${API_BASE_URL}/thread/${encodeURIComponent(currThreadId)}/share`,
                 {
-                    method: "POST"
+                    method: "POST",
+                    credentials: "include"
                 }
             );
 
             const data = await response.json();
+
+            if (response.status === 401) {
+                setUser(null);
+                requireLogin();
+                return;
+            }
 
             if (!response.ok) {
                 throw new Error(
@@ -340,13 +398,20 @@ function ChatWindow() {
     };
 
 
-    // Enter sends; Shift + Enter inserts a new line
+    // Keyboard behaviour controlled by Settings
     const handleKeyDown = (e) => {
-        if (e.key === "Enter" && !e.shiftKey) {
+
+        // Enter sends only when the preference is enabled
+        if (
+            e.key === "Enter" &&
+            enterToSend &&
+            !e.shiftKey
+        ) {
             e.preventDefault();
             getReply();
         }
 
+        // Preserve existing Escape behaviour
         if (e.key === "Escape") {
             if (showShareModal) {
                 closeShareModal();
@@ -465,6 +530,9 @@ function ChatWindow() {
                             type="button"
                             className="plusIcon"
                             title="Add attachment"
+                            onClick={() => {
+                                if (!user) requireLogin();
+                            }}
                         >
                             <i className="fa-solid fa-plus"></i>
                         </button>
@@ -475,6 +543,9 @@ function ChatWindow() {
                                 type="button"
                                 className="thinkLabel"
                                 title="Think"
+                                onClick={() => {
+                                    if (!user) requireLogin();
+                                }}
                             >
                                 <i className="fa-solid fa-brain"></i>
                                 <span>Think</span>
@@ -484,6 +555,9 @@ function ChatWindow() {
                                 type="button"
                                 className="voiceIcon"
                                 title="Voice input"
+                                onClick={() => {
+                                    if (!user) requireLogin();
+                                }}
                             >
                                 <i className="fa-solid fa-microphone"></i>
                             </button>

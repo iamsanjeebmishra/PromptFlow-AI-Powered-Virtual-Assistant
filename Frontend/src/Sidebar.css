@@ -443,6 +443,170 @@
 }
 
 /* ================================
+   LIGHT THEME
+================================ */
+
+html[data-theme="light"] .sidebar {
+    background-color: #f0f2f5 !important;
+    color: #20242a !important;
+    border-right: 1px solid #dfe3e8 !important;
+}
+
+html[data-theme="light"] .sidebarHeader,
+html[data-theme="light"] .sidebarProfile {
+    background-color: #f0f2f5 !important;
+}
+
+html[data-theme="light"] .sidebarBrand,
+html[data-theme="light"] .sidebarBrand span {
+    color: #252a31 !important;
+}
+
+/* Header icons */
+html[data-theme="light"] .sidebarIconButton {
+    color: #424a55 !important;
+}
+
+html[data-theme="light"] .sidebarIconButton:hover {
+    background-color: #e3e7ec !important;
+}
+
+/* New chat */
+html[data-theme="light"] .newChatButton {
+    background-color: #252a31 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .newChatButton i {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .newChatButton:hover {
+    background-color: #3a424c !important;
+}
+
+/* Search */
+html[data-theme="light"] .sidebarSearch {
+    color: #68717d !important;
+}
+
+html[data-theme="light"] .sidebarSearch i {
+    color: #68717d !important;
+}
+
+html[data-theme="light"] .sidebarSearch input {
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .sidebarSearch input::placeholder {
+    color: #858d97 !important;
+}
+
+/* History section */
+html[data-theme="light"] .historySection h4,
+html[data-theme="light"] .historySection h4 i {
+    color: #68717d !important;
+}
+
+html[data-theme="light"] .history li {
+    color: #343a40 !important;
+}
+
+html[data-theme="light"] .history li:hover,
+html[data-theme="light"] .history li.highlighted {
+    background-color: #e3e7ec !important;
+}
+
+html[data-theme="light"] .threadTitle {
+    color: #343a40 !important;
+}
+
+html[data-theme="light"] .sidebarHistory::-webkit-scrollbar-thumb {
+    background: #c6ccd3 !important;
+}
+
+/* Chat action icons */
+html[data-theme="light"] .threadActions button i {
+    color: #68717d !important;
+}
+
+html[data-theme="light"] .threadActions button:hover {
+    background-color: #dce1e7 !important;
+}
+
+html[data-theme="light"] .threadActions button:hover i {
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .threadActions button:last-child:hover i {
+    color: #d04444 !important;
+}
+
+/* Empty history */
+html[data-theme="light"] .emptyHistory {
+    color: #737b85 !important;
+}
+
+/* Profile area */
+html[data-theme="light"] .sidebarProfile {
+    border-top: 1px solid #dfe3e8 !important;
+}
+
+html[data-theme="light"] .profileButton:hover {
+    background-color: #e3e7ec !important;
+}
+
+html[data-theme="light"] .profileUserInfo strong {
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .profileUserInfo span,
+html[data-theme="light"] .profileArrow {
+    color: #68717d !important;
+}
+
+/* Profile popup */
+html[data-theme="light"] .profileMenu {
+    background-color: #ffffff !important;
+    border: 1px solid #dfe3e8 !important;
+    box-shadow: 0 8px 30px rgba(30, 40, 50, 0.14) !important;
+}
+
+html[data-theme="light"] .profileMenuHeader {
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .profileMenuHeader > i {
+    color: #68717d !important;
+}
+
+html[data-theme="light"] .profileDivider {
+    background-color: #e1e5e9 !important;
+}
+
+/* Profile menu text and icons */
+html[data-theme="light"] .profileMenuItem {
+    color: #343a40 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .profileMenuItem i,
+html[data-theme="light"] .profileMenuItem span,
+html[data-theme="light"] .profileMenuItem .menuArrow {
+    color: #343a40 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .profileMenuItem:hover {
+    background-color: #edf0f3 !important;
+}
+
+html[data-theme="light"] .profileMenuItem:hover i,
+html[data-theme="light"] .profileMenuItem:hover span {
+    color: #20242a !important;
+}
+
+/* ================================
    COLLAPSED SIDEBAR
 ================================ */
 
@@ -509,4 +673,32 @@
     .profileMenu {
         width: 250px;
     }
+}
+
+/* LIGHT THEME — HISTORY SECTION ICON FIX */
+
+html[data-theme="light"] .historySection h4 {
+    color: #59636e !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .historySection h4 i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    min-width: 16px;
+    height: 16px;
+    color: #59636e !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    transform: none !important;
+}
+
+html[data-theme="light"] .historySection h4 span {
+    color: #59636e !important;
+    opacity: 1 !important;
 }

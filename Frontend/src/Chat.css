@@ -105,7 +105,6 @@
 
 /* =================================
    CONVERSATION AREA
-   Scrollbar at far right
 ================================= */
 
 .chats {
@@ -267,6 +266,11 @@
     color: #ffffff;
 }
 
+.messageActionButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* Show user message actions on hover */
 
 .userMessageContainer .messageActions {
@@ -399,6 +403,193 @@
 }
 
 /* =================================
+   LIGHT THEME
+================================= */
+
+/* Main content */
+html[data-theme="light"] .chatContent {
+    background-color: #f7f8fa !important;
+    color: #20242a !important;
+}
+
+/* Welcome screen */
+html[data-theme="light"] .welcomeScreen h1 {
+    color: #20242a !important;
+}
+
+html[data-theme="light"] .welcomeSubtitle {
+    color: #68717d !important;
+}
+
+/* Suggestion cards */
+html[data-theme="light"] .suggestionCard {
+    background-color: #ffffff !important;
+    border: 1px solid #dfe3e8 !important;
+    color: #303842 !important;
+}
+
+html[data-theme="light"] .suggestionCard i {
+    color: #596675 !important;
+}
+
+html[data-theme="light"] .suggestionCard span {
+    color: #343a40 !important;
+}
+
+html[data-theme="light"] .suggestionCard:hover {
+    background-color: #edf1f5 !important;
+    border-color: #cbd2da !important;
+}
+
+/* Conversation scrollbar */
+html[data-theme="light"] .chats {
+    background-color: #f7f8fa !important;
+    color: #20242a !important;
+    scrollbar-color: #c5cbd2 transparent;
+}
+
+html[data-theme="light"] .chats::-webkit-scrollbar-thumb {
+    background-color: #c5cbd2 !important;
+}
+
+/* User messages */
+html[data-theme="light"] .userMessage {
+    background-color: #e7edf5 !important;
+    color: #20242a !important;
+}
+
+/* Assistant messages */
+html[data-theme="light"] .gptDiv {
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .gptMessage {
+    color: #252a31 !important;
+}
+
+/* Markdown paragraphs */
+html[data-theme="light"] .gptMessage p {
+    color: #252a31 !important;
+}
+
+/* Markdown headings */
+html[data-theme="light"] .gptMessage h1,
+html[data-theme="light"] .gptMessage h2,
+html[data-theme="light"] .gptMessage h3,
+html[data-theme="light"] .gptMessage h4,
+html[data-theme="light"] .gptMessage h5,
+html[data-theme="light"] .gptMessage h6 {
+    color: #20242a !important;
+}
+
+/* Lists */
+html[data-theme="light"] .gptMessage ul,
+html[data-theme="light"] .gptMessage ol,
+html[data-theme="light"] .gptMessage li {
+    color: #252a31 !important;
+}
+
+/* Bold text */
+html[data-theme="light"] .gptMessage strong,
+html[data-theme="light"] .gptMessage b {
+    color: #171b20 !important;
+}
+
+/* Italic text */
+html[data-theme="light"] .gptMessage em,
+html[data-theme="light"] .gptMessage i {
+    color: #343a40 !important;
+}
+
+/* Links */
+html[data-theme="light"] .gptMessage a {
+    color: #2268b5 !important;
+    text-decoration: underline;
+}
+
+/* Blockquotes */
+html[data-theme="light"] .gptMessage blockquote {
+    color: #535d68 !important;
+    border-left-color: #aebbc9 !important;
+}
+
+/* Horizontal rules */
+html[data-theme="light"] .gptMessage hr {
+    border: none;
+    border-top: 1px solid #dfe3e8 !important;
+}
+
+/* Tables */
+html[data-theme="light"] .gptMessage table {
+    border-collapse: collapse;
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .gptMessage th,
+html[data-theme="light"] .gptMessage td {
+    border: 1px solid #dfe3e8 !important;
+    padding: 9px 12px;
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .gptMessage th {
+    background-color: #edf1f5 !important;
+    color: #20242a !important;
+}
+
+/* Inline code */
+html[data-theme="light"] .gptMessage p code,
+html[data-theme="light"] .gptMessage li code {
+    background-color: #e9edf2 !important;
+    color: #283747 !important;
+    border: 1px solid #dce2e9;
+}
+
+/* Message action buttons */
+html[data-theme="light"] .messageActionButton {
+    color: #626d79 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .messageActionButton i {
+    color: #626d79 !important;
+}
+
+html[data-theme="light"] .messageActionButton:hover {
+    background-color: #e9edf2 !important;
+    color: #20242a !important;
+}
+
+html[data-theme="light"] .messageActionButton:hover i {
+    color: #20242a !important;
+}
+
+/* Keep user message actions visible */
+html[data-theme="light"] .userMessageContainer .messageActions {
+    opacity: 1 !important;
+}
+
+/* Code editor intentionally stays dark in both themes */
+html[data-theme="light"] .codeEditor {
+    background: #414141 !important;
+    border-color: #555555 !important;
+}
+
+html[data-theme="light"] .codeEditorHeader,
+html[data-theme="light"] .codeEditorContent {
+    background: #414141 !important;
+}
+
+html[data-theme="light"] .codeEditorLanguage,
+html[data-theme="light"] .codeEditorActions button {
+    color: #eeeeee !important;
+}
+
+html[data-theme="light"] .codeEditorActions button:hover {
+    background: #555555 !important;
+}
+
+/* =================================
    RESPONSIVE DESIGN
 ================================= */
 
@@ -481,4 +672,54 @@
     .codeEditorActions {
         gap: 6px;
     }
+}
+
+/* =================================
+   CODE EDITOR — SHARE AND COPY ICON FIX
+================================= */
+
+.codeEditorActions button {
+    color: #f1f3f5 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.codeEditorActions button i,
+.codeEditorActions button svg {
+    color: #f1f3f5 !important;
+    fill: #f1f3f5 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.codeEditorActions button:hover {
+    background-color: #606060 !important;
+    color: #ffffff !important;
+}
+
+.codeEditorActions button:hover i,
+.codeEditorActions button:hover svg {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+}
+
+/* Keep icons visible in light theme too */
+html[data-theme="light"] .codeEditorActions button,
+html[data-theme="light"] .codeEditorActions button i,
+html[data-theme="light"] .codeEditorActions button svg {
+    color: #f1f3f5 !important;
+    fill: #f1f3f5 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Fix code language icon in the dark code editor */
+
+html[data-theme="light"] .gptMessage .codeEditorLanguage,
+html[data-theme="light"] .gptMessage .codeEditorLanguage i,
+html[data-theme="light"] .gptMessage .codeEditorLanguage span {
+    color: #eeeeee !important;
+    -webkit-text-fill-color: #eeeeee !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }

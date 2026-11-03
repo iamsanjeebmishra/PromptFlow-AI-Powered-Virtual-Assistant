@@ -1,0 +1,189 @@
+
+/* =========================================
+   HELP PAGE — DEFAULT DARK THEME
+========================================= */
+
+.helpGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.helpCard {
+    padding: 22px;
+    border: 1px solid #303030;
+    border-radius: 15px;
+    background: #151515;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.helpCardIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 18px;
+    border-radius: 11px;
+    background: #252525;
+    color: #b8c9d8;
+    font-size: 17px;
+}
+
+.helpCard h2 {
+    margin: 0 0 10px;
+    color: #f0f0f0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.helpCard p {
+    margin: 0;
+    color: #999999;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.helpFooter {
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid #303030;
+    border-radius: 15px;
+    background: #151515;
+}
+
+.helpFooter h2 {
+    margin: 0 0 9px;
+    color: #f0f0f0;
+    font-size: 17px;
+}
+
+.helpFooter p {
+    margin: 0 0 18px;
+    color: #999999;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.helpFooter button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 15px;
+    border: 0;
+    border-radius: 9px;
+    background: #e8e8e8;
+    color: #161616;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.helpFooter button:hover {
+    background: #ffffff;
+}
+
+/* =========================================
+   HELP PAGE — LIGHT THEME
+========================================= */
+
+html[data-theme="light"] .utilityPage {
+    background: #f7f8fa !important;
+    color: #20242a !important;
+}
+
+/* Help Center heading and subtitle */
+html[data-theme="light"] .utilityHeading h1 {
+    color: #20242a !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+html[data-theme="light"] .utilityHeading p {
+    color: #68717d !important;
+    opacity: 1 !important;
+}
+
+/* Help cards */
+html[data-theme="light"] .helpCard {
+    background: #ffffff !important;
+    border: 1px solid #dfe3e8 !important;
+    color: #20242a !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .helpCard:hover {
+    background: #fafbfc !important;
+    border-color: #cbd2da !important;
+}
+
+html[data-theme="light"] .helpCard h2 {
+    color: #252a31 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .helpCard p {
+    color: #68717d !important;
+    opacity: 1 !important;
+}
+
+/* Help card icons */
+html[data-theme="light"] .helpCardIcon {
+    background: #edf1f5 !important;
+    color: #40566b !important;
+    opacity: 1 !important;
+}
+
+/* Help footer */
+html[data-theme="light"] .helpFooter {
+    background: #ffffff !important;
+    border: 1px solid #dfe3e8 !important;
+}
+
+html[data-theme="light"] .helpFooter h2 {
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .helpFooter p {
+    color: #68717d !important;
+}
+
+html[data-theme="light"] .helpFooter button {
+    background: #252a31 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .helpFooter button:hover {
+    background: #3a424c !important;
+}
+
+/* Back to chats button */
+html[data-theme="light"] .utilityBackButton {
+    background: transparent !important;
+    color: #424a55 !important;
+    border-color: #dfe3e8 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .utilityBackButton svg {
+    color: #424a55 !important;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 650px) {
+    .helpGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .helpCard {
+        padding: 18px;
+    }
+
+    .helpFooter {
+        padding: 20px;
+    }
+}

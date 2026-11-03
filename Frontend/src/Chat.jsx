@@ -35,8 +35,20 @@ function Chat({ onRegenerate, loading }) {
         newChat,
         prevChats,
         reply,
-        setPrompt
+        setPrompt,
+        theme
     } = useContext(MyContext);
+
+    const isLightTheme = theme === "light";
+
+    // Explicit light-theme colors prevent Chat.css defaults from fading
+    // assistant Markdown text and message action controls.
+    const markdownTextStyle = isLightTheme ? { color: "#20242a" } : undefined;
+    const actionButtonStyle = isLightTheme
+        ? { color: "#59636f", backgroundColor: "transparent", opacity: 1 }
+        : undefined;
+    const actionIconStyle = isLightTheme ? { color: "#59636f", opacity: 1 } : undefined;
+    const actionTextStyle = isLightTheme ? { color: "#59636f", opacity: 1 } : undefined;
 
     const [latestReply, setLatestReply] = useState(null);
     const [copiedItem, setCopiedItem] = useState(null);
@@ -168,7 +180,7 @@ function Chat({ onRegenerate, loading }) {
 
 
     return (
-        <div className="chatContent">
+        <div className={`chatContent ${isLightTheme ? "chatContentLight" : "chatContentDark"}`}>
 
             {/* WELCOME SCREEN */}
             {newChat && prevChats.length === 0 ? (
@@ -274,10 +286,14 @@ function Chat({ onRegenerate, loading }) {
                                             {chat.content}
                                         </p>
 
-                                        <div className="messageActions">
+                                        <div
+                                            className="messageActions"
+                                            style={isLightTheme ? { opacity: 1, visibility: "visible" } : undefined}
+                                        >
 
                                             <button
                                                 className="messageActionButton"
+                                                style={actionButtonStyle}
                                                 type="button"
                                                 title="Copy message"
                                                 onClick={() =>
@@ -290,9 +306,10 @@ function Chat({ onRegenerate, loading }) {
                                                             ? "fa-circle-check"
                                                             : "fa-copy"
                                                     }`}
+                                                    style={actionIconStyle}
                                                 ></i>
 
-                                                <span>
+                                                <span style={actionTextStyle}>
                                                     {copiedItem === messageId
                                                         ? "Copied!"
                                                         : "Copy"}
@@ -301,6 +318,7 @@ function Chat({ onRegenerate, loading }) {
 
                                             <button
                                                 className="messageActionButton"
+                                                style={actionButtonStyle}
                                                 type="button"
                                                 title="Share message"
                                                 onClick={() =>
@@ -310,8 +328,8 @@ function Chat({ onRegenerate, loading }) {
                                                     )
                                                 }
                                             >
-                                                <i className="fa-solid fa-share-nodes"></i>
-                                                <span>Share</span>
+                                                <i className="fa-solid fa-share-nodes" style={actionIconStyle}></i>
+                                                <span style={actionTextStyle}>Share</span>
                                             </button>
 
                                         </div>
@@ -327,6 +345,27 @@ function Chat({ onRegenerate, loading }) {
                                             <ReactMarkdown
                                                 rehypePlugins={[rehypeHighlight]}
                                                 components={{
+                                                    // Keep ordinary Markdown text readable in light mode.
+                                                    p: ({ children }) => <p style={markdownTextStyle}>{children}</p>,
+                                                    h1: ({ children }) => <h1 style={markdownTextStyle}>{children}</h1>,
+                                                    h2: ({ children }) => <h2 style={markdownTextStyle}>{children}</h2>,
+                                                    h3: ({ children }) => <h3 style={markdownTextStyle}>{children}</h3>,
+                                                    h4: ({ children }) => <h4 style={markdownTextStyle}>{children}</h4>,
+                                                    h5: ({ children }) => <h5 style={markdownTextStyle}>{children}</h5>,
+                                                    h6: ({ children }) => <h6 style={markdownTextStyle}>{children}</h6>,
+                                                    ul: ({ children }) => <ul style={markdownTextStyle}>{children}</ul>,
+                                                    ol: ({ children }) => <ol style={markdownTextStyle}>{children}</ol>,
+                                                    li: ({ children }) => <li style={markdownTextStyle}>{children}</li>,
+                                                    blockquote: ({ children }) => <blockquote style={markdownTextStyle}>{children}</blockquote>,
+                                                    strong: ({ children }) => <strong style={markdownTextStyle}>{children}</strong>,
+                                                    em: ({ children }) => <em style={markdownTextStyle}>{children}</em>,
+                                                    a: ({ children, href }) => (
+                                                        <a href={href} style={isLightTheme ? { color: "#245fa8" } : undefined}>
+                                                            {children}
+                                                        </a>
+                                                    ),
+                                                    th: ({ children }) => <th style={markdownTextStyle}>{children}</th>,
+                                                    td: ({ children }) => <td style={markdownTextStyle}>{children}</td>,
 
                                                     // Custom code editor
                                                     pre: ({ children }) => {
@@ -415,11 +454,15 @@ function Chat({ onRegenerate, loading }) {
 
                                         {/* ASSISTANT MESSAGE ACTIONS */}
                                         {responseIsReady && (
-                                            <div className="messageActions">
+                                            <div
+                                                className="messageActions"
+                                                style={isLightTheme ? { opacity: 1, visibility: "visible" } : undefined}
+                                            >
 
                                                 {/* Copy assistant response */}
                                                 <button
                                                     className="messageActionButton"
+                                                    style={actionButtonStyle}
                                                     type="button"
                                                     title="Copy response"
                                                     onClick={() =>
@@ -435,9 +478,10 @@ function Chat({ onRegenerate, loading }) {
                                                                 ? "fa-circle-check"
                                                                 : "fa-copy"
                                                         }`}
+                                                        style={actionIconStyle}
                                                     ></i>
 
-                                                    <span>
+                                                    <span style={actionTextStyle}>
                                                         {copiedItem === messageId
                                                             ? "Copied!"
                                                             : "Copy"}
@@ -449,13 +493,14 @@ function Chat({ onRegenerate, loading }) {
                                                 {idx === prevChats.length - 1 && (
                                                     <button
                                                         className="messageActionButton"
+                                                        style={actionButtonStyle}
                                                         type="button"
                                                         title="Regenerate response"
                                                         onClick={onRegenerate}
                                                         disabled={loading}
                                                     >
-                                                        <i className="fa-solid fa-rotate-right"></i>
-                                                        <span>Regenerate</span>
+                                                        <i className="fa-solid fa-rotate-right" style={actionIconStyle}></i>
+                                                        <span style={actionTextStyle}>Regenerate</span>
                                                     </button>
                                                 )}
 

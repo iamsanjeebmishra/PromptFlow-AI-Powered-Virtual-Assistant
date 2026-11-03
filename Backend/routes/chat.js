@@ -12,47 +12,104 @@ import getOpenAiAPIResponse, {
 const router = express.Router();
 
 
+// Authentication middleware
+const requireAuth = (req, res, next) => {
+    if (!req.isAuthenticated || !req.isAuthenticated()) {
+        return res.status(401).json({
+            error: "Please log in to continue"
+        });
+    }
+
+    next();
+};
+
+
+// PUBLIC ROUTE: Retrieve a shared conversation
+// Anyone with the share link can view its snapshot
+router.get("/share/:shareId", async (req, res) => {
+    const { shareId } = req.params;
+
+    try {
+        const sharedConversation =
+            await SharedConversation.findOne({ shareId });
+
+        if (!sharedConversation) {
+            return res.status(404).json({
+                error: "Shared conversation not found"
+            });
+        }
+
+        return res.json({
+            title: sharedConversation.title,
+            messages: sharedConversation.messages,
+            createdAt: sharedConversation.createdAt
+        });
+    }
+    catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+            error: "Failed to fetch shared conversation"
+        });
+    }
+});
+
+
+// All routes below this point require authentication
+router.use(requireAuth);
+
+
 // Test route
 router.post("/test", async (req, res) => {
     try {
         const thread = new Thread({
-            threadId: "imiss you",
-            title: "Testing new thread3"
+            userId: req.user._id,
+            threadId: randomUUID(),
+            title: "Testing new thread"
         });
 
         const response = await thread.save();
-        res.send(response);
+
+        return res.send(response);
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({
+
+        return res.status(500).json({
             error: "Failed to save in DB"
         });
     }
 });
 
 
-// Get all threads, sorted by updatedAt
+// Get only the logged-in user's threads
 router.get("/thread", async (req, res) => {
     try {
-        const threads = await Thread.find({}).sort({ updatedAt: -1 });
-        res.json(threads);
+        const threads = await Thread.find({
+            userId: req.user._id
+        }).sort({ updatedAt: -1 });
+
+        return res.json(threads);
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({
+
+        return res.status(500).json({
             error: "Failed to fetch threads"
         });
     }
 });
 
 
-// Get messages of a particular thread
+// Get messages from a particular user's thread
 router.get("/thread/:threadId", async (req, res) => {
     const { threadId } = req.params;
 
     try {
-        const thread = await Thread.findOne({ threadId });
+        const thread = await Thread.findOne({
+            threadId,
+            userId: req.user._id
+        });
 
         if (!thread) {
             return res.status(404).json({
@@ -64,19 +121,23 @@ router.get("/thread/:threadId", async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({
+
+        return res.status(500).json({
             error: "Failed to fetch chat"
         });
     }
 });
 
 
-// Delete a particular thread
+// Delete only the logged-in user's thread
 router.delete("/thread/:threadId", async (req, res) => {
     const { threadId } = req.params;
 
     try {
-        const deletedThread = await Thread.findOneAndDelete({ threadId });
+        const deletedThread = await Thread.findOneAndDelete({
+            threadId,
+            userId: req.user._id
+        });
 
         if (!deletedThread) {
             return res.status(404).json({
@@ -90,19 +151,23 @@ router.delete("/thread/:threadId", async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({
+
+        return res.status(500).json({
             error: "Failed to delete the thread"
         });
     }
 });
 
 
-// Create a read-only snapshot of a conversation
+// Create a shareable snapshot of the logged-in user's conversation
 router.post("/thread/:threadId/share", async (req, res) => {
     const { threadId } = req.params;
 
     try {
-        const thread = await Thread.findOne({ threadId });
+        const thread = await Thread.findOne({
+            threadId,
+            userId: req.user._id
+        });
 
         if (!thread) {
             return res.status(404).json({
@@ -137,48 +202,23 @@ router.post("/thread/:threadId/share", async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({
+
+        return res.status(500).json({
             error: "Failed to create shared conversation"
         });
     }
 });
 
 
-// Retrieve a shared conversation
-router.get("/share/:shareId", async (req, res) => {
-    const { shareId } = req.params;
-
-    try {
-        const sharedConversation =
-            await SharedConversation.findOne({ shareId });
-
-        if (!sharedConversation) {
-            return res.status(404).json({
-                error: "Shared conversation not found"
-            });
-        }
-
-        return res.json({
-            title: sharedConversation.title,
-            messages: sharedConversation.messages,
-            createdAt: sharedConversation.createdAt
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            error: "Failed to fetch shared conversation"
-        });
-    }
-});
-
-
-// Regenerate the latest assistant response
+// Regenerate the latest response of the logged-in user's thread
 router.post("/chat/:threadId/regenerate", async (req, res) => {
     const { threadId } = req.params;
 
     try {
-        const thread = await Thread.findOne({ threadId });
+        const thread = await Thread.findOne({
+            threadId,
+            userId: req.user._id
+        });
 
         if (!thread) {
             return res.status(404).json({
@@ -198,7 +238,7 @@ router.post("/chat/:threadId/regenerate", async (req, res) => {
             });
         }
 
-        // Keep the complete history except the previous assistant answer
+        // Keep conversation history except previous assistant answer
         const conversationHistory = messages
             .slice(0, -1)
             .map((message) => ({
@@ -210,8 +250,9 @@ router.post("/chat/:threadId/regenerate", async (req, res) => {
             conversationHistory
         );
 
-        // Replace the existing assistant answer
-        const lastMessage = thread.messages[thread.messages.length - 1];
+        // Replace the previous response
+        const lastMessage =
+            thread.messages[thread.messages.length - 1];
 
         lastMessage.content = assistantReply;
         lastMessage.timestamp = new Date();
@@ -227,7 +268,8 @@ router.post("/chat/:threadId/regenerate", async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({
+
+        return res.status(500).json({
             error: "Failed to regenerate response"
         });
     }
@@ -238,19 +280,40 @@ router.post("/chat/:threadId/regenerate", async (req, res) => {
 router.post("/chat", async (req, res) => {
     const { threadId, message } = req.body;
 
-    if (!threadId || !message) {
+    if (
+        typeof threadId !== "string" ||
+        typeof message !== "string" ||
+        !threadId.trim() ||
+        !message.trim()
+    ) {
         return res.status(400).json({
             error: "Missing required fields"
         });
     }
 
     try {
-        let thread = await Thread.findOne({ threadId });
+        const currentUserId = req.user._id;
+
+        let thread = await Thread.findOne({
+            threadId,
+            userId: currentUserId
+        });
 
         if (!thread) {
+            // Prevent using another user's existing thread ID
+            const threadExists = await Thread.exists({ threadId });
+
+            if (threadExists) {
+                return res.status(404).json({
+                    error: "Thread not found"
+                });
+            }
+
+            // Generate AI title for a new conversation
             const title = await generateChatTitle(message);
 
             thread = new Thread({
+                userId: currentUserId,
                 threadId,
                 title,
                 messages: [
@@ -262,6 +325,7 @@ router.post("/chat", async (req, res) => {
             });
         }
         else {
+            // Add message to the authenticated user's conversation
             thread.messages.push({
                 role: "user",
                 content: message
@@ -269,10 +333,12 @@ router.post("/chat", async (req, res) => {
         }
 
         // Send conversation history to OpenAI
-        const conversationHistory = thread.messages.map((chatMessage) => ({
-            role: chatMessage.role,
-            content: chatMessage.content
-        }));
+        const conversationHistory = thread.messages.map(
+            (chatMessage) => ({
+                role: chatMessage.role,
+                content: chatMessage.content
+            })
+        );
 
         const assistantReply = await getOpenAiAPIResponse(
             conversationHistory
@@ -295,7 +361,14 @@ router.post("/chat", async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({
+
+        if (error.code === 11000) {
+            return res.status(409).json({
+                error: "This conversation already exists"
+            });
+        }
+
+        return res.status(500).json({
             error: "Something went wrong"
         });
     }

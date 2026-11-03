@@ -380,6 +380,177 @@
 }
 
 /* =================================
+   LIGHT THEME
+================================= */
+
+/* Main window */
+html[data-theme="light"] .chatwindow {
+    background-color: #f7f8fa !important;
+    color: #20242a !important;
+}
+
+/* Navbar */
+html[data-theme="light"] .navbar {
+    background-color: #f7f8fa !important;
+    border-bottom: 1px solid #e4e7eb !important;
+    color: #20242a !important;
+}
+
+html[data-theme="light"] .modelName {
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .modelName i {
+    color: #68717d !important;
+}
+
+/* Navbar buttons and icons */
+html[data-theme="light"] .navbar button {
+    color: #46515d !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .navbar button i,
+html[data-theme="light"] .navbar button svg {
+    color: #46515d !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .navbar button:hover {
+    background-color: #edf0f3 !important;
+}
+
+/* Main conversation area */
+html[data-theme="light"] .chatMain {
+    background-color: #f7f8fa !important;
+    color: #20242a !important;
+}
+
+/* Loading area */
+html[data-theme="light"] .loadingArea {
+    color: #424a55 !important;
+}
+
+/* Composer background */
+html[data-theme="light"] .chatInput {
+    background-color: #f7f8fa !important;
+}
+
+/* Composer box */
+html[data-theme="light"] .inputBox {
+    background-color: #ffffff !important;
+    border: 1px solid #dfe3e8 !important;
+    box-shadow: 0 4px 22px rgba(30, 40, 50, 0.14) !important;
+}
+
+html[data-theme="light"] .inputBox:focus-within {
+    border-color: #aebbc9 !important;
+}
+
+/* Expand button */
+html[data-theme="light"] .expandComposerButton {
+    color: #68717d !important;
+}
+
+html[data-theme="light"] .expandComposerButton:hover {
+    background-color: #edf0f3 !important;
+    color: #20242a !important;
+}
+
+/* Textarea */
+html[data-theme="light"] .inputBox .promptTextarea {
+    background-color: transparent !important;
+    color: #20242a !important;
+}
+
+html[data-theme="light"] .inputBox .promptTextarea::placeholder {
+    color: #858d97 !important;
+}
+
+html[data-theme="light"] .inputBox .promptTextarea:disabled {
+    opacity: 0.7;
+}
+
+html[data-theme="light"] .inputBox .promptTextarea::-webkit-scrollbar-thumb {
+    background-color: #c5cbd2 !important;
+}
+
+/* Composer action buttons */
+html[data-theme="light"] .plusIcon,
+html[data-theme="light"] .thinkLabel,
+html[data-theme="light"] .voiceIcon {
+    color: #46515d !important;
+    background-color: transparent !important;
+    opacity: 1 !important;
+}
+
+/* Plus button */
+html[data-theme="light"] .plusIcon {
+    border-color: #68717d !important;
+}
+
+html[data-theme="light"] .plusIcon:hover {
+    background-color: #edf0f3 !important;
+}
+
+/* Think button */
+html[data-theme="light"] .thinkLabel {
+    border-color: #aeb6bf !important;
+    color: #46515d !important;
+}
+
+html[data-theme="light"] .thinkLabel:hover {
+    background-color: #edf0f3 !important;
+}
+
+/* Microphone button */
+html[data-theme="light"] .voiceIcon {
+    color: #46515d !important;
+}
+
+html[data-theme="light"] .voiceIcon:hover {
+    background-color: #edf0f3 !important;
+}
+
+/* Disabled composer buttons remain distinguishable */
+html[data-theme="light"] .composerActions button:disabled {
+    opacity: 1 !important;
+    cursor: not-allowed;
+}
+
+html[data-theme="light"] .composerActions button:disabled:not(.sendButton) {
+    color: #8a929c !important;
+}
+
+/* Send button */
+html[data-theme="light"] .sendButton {
+    background-color: #252a31 !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .sendButton i {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .sendButton:hover {
+    background-color: #3a424c !important;
+}
+
+html[data-theme="light"] .sendButton:disabled {
+    background-color: #858d97 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .sendButton:disabled i {
+    color: #ffffff !important;
+}
+
+/* Disclaimer */
+html[data-theme="light"] .info {
+    color: #68717d !important;
+}
+
+/* =================================
    RESPONSIVE DESIGN
 ================================= */
 
@@ -467,4 +638,122 @@
         right: 9px;
         top: 7px;
     }
+}
+
+/* LIGHT THEME — NAVBAR VISIBILITY FIX */
+
+html[data-theme="light"] .navbar {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+html[data-theme="light"] .navbar .modelName,
+html[data-theme="light"] .navbar .modelName * {
+    color: #252a31 !important;
+    -webkit-text-fill-color: #252a31 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+html[data-theme="light"] .navbar button,
+html[data-theme="light"] .navbar button span,
+html[data-theme="light"] .navbar button i,
+html[data-theme="light"] .navbar button svg {
+    color: #46515d !important;
+    -webkit-text-fill-color: #46515d !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Share button, including its label */
+html[data-theme="light"] .navbar .shareButton,
+html[data-theme="light"] .navbar .shareButton * {
+    color: #46515d !important;
+    -webkit-text-fill-color: #46515d !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+
+/* LIGHT THEME — COMPOSER BUTTON VISIBILITY FIX */
+
+html[data-theme="light"] .plusIcon,
+html[data-theme="light"] .thinkLabel,
+html[data-theme="light"] .voiceIcon {
+    color: #343a40 !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* Plus button */
+html[data-theme="light"] .plusIcon {
+    background: #ffffff !important;
+    border: 1.5px solid #687582 !important;
+}
+
+html[data-theme="light"] .plusIcon i {
+    color: #343a40 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .plusIcon:hover {
+    background: #e9edf2 !important;
+}
+
+/* Think button */
+html[data-theme="light"] .thinkLabel {
+    background: #ffffff !important;
+    border: 1px solid #8793a0 !important;
+    color: #343a40 !important;
+}
+
+html[data-theme="light"] .thinkLabel i,
+html[data-theme="light"] .thinkLabel span {
+    color: #343a40 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .thinkLabel:hover {
+    background: #e9edf2 !important;
+}
+
+/* Microphone */
+html[data-theme="light"] .voiceIcon {
+    background: transparent !important;
+    color: #343a40 !important;
+}
+
+html[data-theme="light"] .voiceIcon i {
+    color: #343a40 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .voiceIcon:hover {
+    background: #e9edf2 !important;
+}
+
+/* Prevent browser disabled opacity from fading buttons */
+html[data-theme="light"] .composerActions button:disabled {
+    opacity: 1 !important;
+}
+
+/* Send button */
+html[data-theme="light"] .sendButton {
+    background: #4b5663 !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .sendButton i {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .sendButton:disabled {
+    background: #7b8793 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .sendButton:disabled i {
+    color: #ffffff !important;
 }

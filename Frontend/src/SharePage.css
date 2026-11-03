@@ -203,3 +203,26 @@
 .sharedFooter {
     padding-bottom: 45px;
 }
+
+/* LIGHT THEME — RECENT AND PINNED VISIBILITY */
+
+html[data-theme="light"] .sidebarHistory,
+html[data-theme="light"] .historySection {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+html[data-theme="light"] .historySection h4,
+html[data-theme="light"] .historySection h4 span,
+html[data-theme="light"] .historySection h4 i {
+    color: #59636e !important;
+    -webkit-text-fill-color: #59636e !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    font-weight: 500 !important;
+}
+
+/* Keep history section labels readable */
+html[data-theme="light"] .historySection h4 {
+    font-size: 13px !important;
+}

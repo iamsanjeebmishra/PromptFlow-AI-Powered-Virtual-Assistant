@@ -1,0 +1,599 @@
+
+/* =========================================
+   PROMPTFLOW — LIGHT THEME
+========================================= */
+
+/* Global */
+html[data-theme="light"] body {
+    background: #f7f8fa;
+    color: #20242a;
+    color-scheme: light;
+}
+
+html[data-theme="light"] .app {
+    background: #f7f8fa !important;
+    color: #20242a !important;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+html[data-theme="light"] .sidebar {
+    background: #f0f2f5 !important;
+    color: #20242a !important;
+    border-right: 1px solid #dfe3e8 !important;
+}
+
+html[data-theme="light"] .sidebarHeader,
+html[data-theme="light"] .sidebarProfile {
+    background: #f0f2f5 !important;
+}
+
+html[data-theme="light"] .sidebarBrand span,
+html[data-theme="light"] .profileUserInfo strong,
+html[data-theme="light"] .historySection h4,
+html[data-theme="light"] .threadTitle {
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .sidebarIconButton,
+html[data-theme="light"] .profileButton,
+html[data-theme="light"] .profileMenuItem {
+    color: #343a40 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .sidebarIconButton:hover,
+html[data-theme="light"] .profileButton:hover,
+html[data-theme="light"] .profileMenuItem:hover {
+    background: #e3e7ec !important;
+}
+
+html[data-theme="light"] .sidebarSearch,
+html[data-theme="light"] .profileMenu {
+    background: #ffffff !important;
+    border-color: #dfe3e8 !important;
+}
+
+html[data-theme="light"] .sidebarSearch input {
+    color: #252a31 !important;
+}
+
+html[data-theme="light"] .sidebarSearch input::placeholder {
+    color: #858d97 !important;
+}
+
+html[data-theme="light"] .history li {
+    color: #343a40 !important;
+}
+
+html[data-theme="light"] .history li:hover,
+html[data-theme="light"] .history li.highlighted {
+    background: #e3e7ec !important;
+}
+
+html[data-theme="light"] .profileDivider {
+    background: #e1e5e9 !important;
+}
+
+/* Profile dropdown text and icons */
+html[data-theme="light"] .profileMenuItem,
+html[data-theme="light"] .profileMenuItem span,
+html[data-theme="light"] .profileMenuItem svg,
+html[data-theme="light"] .profileMenuItem i {
+    color: #343a40 !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+html[data-theme="light"] .profileMenuItem * {
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .profileUserInfo small,
+html[data-theme="light"] .profileUserInfo p {
+    color: #737b85 !important;
+}
+
+/* New chat button */
+html[data-theme="light"] .newChatButton {
+    background: #252a31 !important;
+    color: #ffffff !important;
+}
+
+/* =========================================
+   CHAT AREA
+========================================= */
+
+html[data-theme="light"] .chatwindow,
+html[data-theme="light"] .chatMain,
+html[data-theme="light"] .chatContent,
+html[data-theme="light"] .chats {
+    background: #f7f8fa !important;
+    color: #20242a !important;
+}
+
+html[data-theme="light"] .navbar {
+    background: #f7f8fa !important;
+    border-bottom: 1px solid #e4e7eb !important;
+}
+
+html[data-theme="light"] .modelName,
+html[data-theme="light"] .welcomeScreen h1,
+html[data-theme="light"] .gptDiv {
+    color: #20242a !important;
+}
+
+html[data-theme="light"] .welcomeSubtitle,
+html[data-theme="light"] .info {
+    color: #737b85 !important;
+}
+
+/* Suggestion cards */
+html[data-theme="light"] .suggestionCard {
+    background: #ffffff !important;
+    color: #303842 !important;
+    border-color: #e0e4e9 !important;
+}
+
+html[data-theme="light"] .suggestionCard:hover {
+    background: #edf1f5 !important;
+}
+
+/* User message */
+html[data-theme="light"] .userMessage {
+    background: #e7edf5 !important;
+    color: #20242a !important;
+}
+
+/* Composer */
+html[data-theme="light"] .chatInput {
+    background: #f7f8fa !important;
+}
+
+html[data-theme="light"] .inputBox {
+    background: #ffffff !important;
+    border-color: #dfe3e8 !important;
+}
+
+html[data-theme="light"] .promptTextarea {
+    color: #20242a !important;
+}
+
+html[data-theme="light"] .promptTextarea::placeholder {
+    color: #8b929b !important;
+}
+
+html[data-theme="light"] .composerActions button,
+html[data-theme="light"] .messageActionButton {
+    color: #46515d !important;
+}
+
+html[data-theme="light"] .messageActionButton:hover,
+html[data-theme="light"] .composerActions button:hover {
+    background: #edf0f3 !important;
+}
+
+/* =========================================
+   PROFILE PAGE
+========================================= */
+
+html[data-theme="light"] .profilePage {
+    background: #f7f8fa !important;
+    color: #20242a !important;
+}
+
+html[data-theme="light"] .profileOverviewCard,
+html[data-theme="light"] .profileDetail {
+    background: #ffffff !important;
+    border-color: #dfe3e8 !important;
+}
+
+html[data-theme="light"] .profileOverviewIdentity h2,
+html[data-theme="light"] .profileOverviewCard h3,
+html[data-theme="light"] .profileDetail strong {
+    color: #20242a !important;
+}
+
+html[data-theme="light"] .profileOverviewIdentity p,
+html[data-theme="light"] .profileDetail span {
+    color: #737b85 !important;
+}
+
+html[data-theme="light"] .profileCardDivider {
+    background: #e1e5e9 !important;
+}
+
+html[data-theme="light"] .profileBackButton {
+    color: #424a55 !important;
+    border-color: #dfe3e8 !important;
+}
+
+/* =========================================
+   HELP AND SETTINGS PAGES
+========================================= */
+
+html[data-theme="light"] .utilityPage {
+    background: #f7f8fa !important;
+    color: #20242a !important;
+}
+
+/* Page headings */
+html[data-theme="light"] .utilityHeading h1,
+html[data-theme="light"] .utilityHeading h2 {
+    color: #20242a !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .utilityHeading p {
+    color: #68717d !important;
+    opacity: 1 !important;
+}
+
+/* Cards and sections */
+html[data-theme="light"] .settingsSection,
+html[data-theme="light"] .helpCard,
+html[data-theme="light"] .helpFooter {
+    background: #ffffff !important;
+    border-color: #dfe3e8 !important;
+}
+
+/* Card headings */
+html[data-theme="light"] .settingsSection h2,
+html[data-theme="light"] .settingsOption strong,
+html[data-theme="light"] .helpCard h2,
+html[data-theme="light"] .helpFooter h2 {
+    color: #20242a !important;
+    opacity: 1 !important;
+}
+
+/* Card descriptions */
+html[data-theme="light"] .settingsOption p,
+html[data-theme="light"] .helpCard p,
+html[data-theme="light"] .helpFooter p {
+    color: #68717d !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .settingsOption {
+    border-color: #e1e5e9 !important;
+}
+
+/* Theme selection buttons */
+html[data-theme="light"] .themeOptions button {
+    background: #f1f3f5 !important;
+    border-color: #dfe3e8 !important;
+    color: #424a55 !important;
+}
+
+html[data-theme="light"] .themeOptions button.selected {
+    background: #dce7f2 !important;
+    border-color: #8da6bd !important;
+    color: #20242a !important;
+}
+
+/* Help card icons */
+html[data-theme="light"] .helpCardIcon {
+    background: #edf1f5 !important;
+    color: #40566b !important;
+}
+
+/* Back button */
+html[data-theme="light"] .utilityBackButton {
+    color: #424a55 !important;
+    border-color: #dfe3e8 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .utilityBackButton svg {
+    color: #424a55 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .utilityBackButton:hover {
+    background: #e9edf1 !important;
+}
+
+/* Settings save note */
+html[data-theme="light"] .settingsSaveNote {
+    color: #737b85 !important;
+}
+
+/* Help footer button */
+html[data-theme="light"] .helpFooter button {
+    background: #252a31 !important;
+    color: #ffffff !important;
+}
+
+/* =========================================
+   GLOBAL LIGHT THEME — ICON & TEXT FIXES
+========================================= */
+
+/* Make sure page content does not inherit faded opacity */
+html[data-theme="light"] .utilityPage,
+html[data-theme="light"] .profilePage,
+html[data-theme="light"] .upgradePage {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* =========================================
+   PROFILE PAGE HEADING
+========================================= */
+
+html[data-theme="light"] .profilePage h1,
+html[data-theme="light"] .profilePage .profileHeading h1,
+html[data-theme="light"] .profilePage .profileHeader h1 {
+    color: #20242a !important;
+    -webkit-text-fill-color: #20242a !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .profilePage h1 + p,
+html[data-theme="light"] .profilePage .profileHeading p,
+html[data-theme="light"] .profilePage .profileHeader p {
+    color: #68717d !important;
+    -webkit-text-fill-color: #68717d !important;
+    opacity: 1 !important;
+}
+
+/* =========================================
+   HELP PAGE ICONS
+========================================= */
+
+html[data-theme="light"] .helpCardIcon {
+    background: #edf1f5 !important;
+    color: #40566b !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .helpCardIcon i,
+html[data-theme="light"] .helpCardIcon i::before,
+html[data-theme="light"] .helpCardIcon svg,
+html[data-theme="light"] .helpCardIcon svg * {
+    color: #40566b !important;
+    -webkit-text-fill-color: #40566b !important;
+    fill: #40566b !important;
+    stroke: #40566b !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* =========================================
+   SETTINGS PAGE ICONS
+========================================= */
+
+html[data-theme="light"] .themeOptions button {
+    color: #424a55 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .themeOptions button i,
+html[data-theme="light"] .themeOptions button i::before,
+html[data-theme="light"] .themeOptions button svg,
+html[data-theme="light"] .themeOptions button svg * {
+    color: #424a55 !important;
+    -webkit-text-fill-color: #424a55 !important;
+    fill: #424a55 !important;
+    stroke: #424a55 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Theme selection */
+html[data-theme="light"] .themeOptions button.selected i,
+html[data-theme="light"] .themeOptions button.selected svg {
+    color: #26394b !important;
+    fill: #26394b !important;
+    stroke: #26394b !important;
+}
+
+/* Checkboxes */
+html[data-theme="light"] .settingsOption input[type="checkbox"] {
+    accent-color: #637f99 !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* =========================================
+   UPGRADE PAGE ICONS
+========================================= */
+
+/* Main crown icon */
+html[data-theme="light"] .upgradeHeadingIcon {
+    background: #edf1f5 !important;
+    color: #89651f !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .upgradeHeadingIcon i,
+html[data-theme="light"] .upgradeHeadingIcon i::before,
+html[data-theme="light"] .upgradeHeadingIcon svg {
+    color: #89651f !important;
+    -webkit-text-fill-color: #89651f !important;
+    fill: #89651f !important;
+    opacity: 1 !important;
+}
+
+/* Pro crown icon */
+html[data-theme="light"] .upgradePlanTop h2 i {
+    color: #b38429 !important;
+    opacity: 1 !important;
+}
+
+/* Free plan feature descriptions */
+html[data-theme="light"] .upgradeFeatureList li,
+html[data-theme="light"] .upgradeFeatureList li span {
+    color: #343a40 !important;
+    -webkit-text-fill-color: #343a40 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .upgradeFeatureList li i {
+    color: #26945b !important;
+    opacity: 1 !important;
+}
+
+/* Coming soon rocket */
+html[data-theme="light"] .upgradeComingSoonContent > i {
+    color: #b38429 !important;
+    opacity: 1 !important;
+}
+
+/* Plan status labels */
+html[data-theme="light"] .upgradePlanStatus,
+html[data-theme="light"] .upgradePlanStatus.comingSoon {
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* =========================================
+   UNIVERSAL ICON VISIBILITY
+========================================= */
+
+html[data-theme="light"] .helpCardIcon *,
+html[data-theme="light"] .upgradeHeadingIcon *,
+html[data-theme="light"] .themeOptions button * {
+    visibility: visible !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* =========================================
+   FINAL LIGHT THEME CONTRAST OVERRIDES
+   Keep this section at the end of Theme.css
+========================================= */
+
+/* Page headings and descriptions */
+html[data-theme="light"] .profilePage h1,
+html[data-theme="light"] .profilePage h2,
+html[data-theme="light"] .utilityPage h1,
+html[data-theme="light"] .utilityPage h2,
+html[data-theme="light"] .utilityPage h3,
+html[data-theme="light"] .upgradePage h1,
+html[data-theme="light"] .upgradePage h2,
+html[data-theme="light"] .upgradePage h3 {
+    color: #20242a !important;
+    -webkit-text-fill-color: #20242a !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .profilePage > p,
+html[data-theme="light"] .profilePage h1 + p,
+html[data-theme="light"] .utilityPage > p,
+html[data-theme="light"] .utilityHeading p,
+html[data-theme="light"] .upgradePage p {
+    color: #68717d !important;
+    -webkit-text-fill-color: #68717d !important;
+    opacity: 1 !important;
+}
+
+/* Help card icons — Font Awesome glyph color */
+html[data-theme="light"] .helpCardIcon,
+html[data-theme="light"] .helpCardIcon i,
+html[data-theme="light"] .helpCardIcon i::before,
+html[data-theme="light"] .helpCardIcon svg {
+    color: #40566b !important;
+    -webkit-text-fill-color: #40566b !important;
+    fill: #40566b !important;
+    stroke: #40566b !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Settings theme-choice icons */
+html[data-theme="light"] .themeOptions button,
+html[data-theme="light"] .themeOptions button i,
+html[data-theme="light"] .themeOptions button i::before,
+html[data-theme="light"] .themeOptions button svg {
+    color: #424a55 !important;
+    -webkit-text-fill-color: #424a55 !important;
+    fill: #424a55 !important;
+    stroke: #424a55 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+html[data-theme="light"] .themeOptions button.selected,
+html[data-theme="light"] .themeOptions button.selected i,
+html[data-theme="light"] .themeOptions button.selected i::before {
+    color: #26394b !important;
+    -webkit-text-fill-color: #26394b !important;
+}
+
+/* Settings preference labels and controls */
+html[data-theme="light"] .settingsOption strong,
+html[data-theme="light"] .settingsOption p,
+html[data-theme="light"] .settingsOption label {
+    color: #343a40 !important;
+    -webkit-text-fill-color: #343a40 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .settingsOption input[type="checkbox"] {
+    accent-color: #536f89 !important;
+    opacity: 1 !important;
+    filter: none !important;
+}
+
+/* Upgrade page: crown, rocket and feature check icons */
+html[data-theme="light"] .upgradeHeadingIcon,
+html[data-theme="light"] .upgradeHeadingIcon i,
+html[data-theme="light"] .upgradeHeadingIcon i::before {
+    color: #89651f !important;
+    -webkit-text-fill-color: #89651f !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+html[data-theme="light"] .upgradePlanTop h2 i,
+html[data-theme="light"] .upgradePlanTop h2 i::before {
+    color: #a97820 !important;
+    -webkit-text-fill-color: #a97820 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .upgradeComingSoonContent > i,
+html[data-theme="light"] .upgradeComingSoonContent > i::before {
+    color: #a97820 !important;
+    -webkit-text-fill-color: #a97820 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .upgradeFeatureList li,
+html[data-theme="light"] .upgradeFeatureList li span {
+    color: #343a40 !important;
+    -webkit-text-fill-color: #343a40 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .upgradeFeatureList li i,
+html[data-theme="light"] .upgradeFeatureList li i::before {
+    color: #238653 !important;
+    -webkit-text-fill-color: #238653 !important;
+    opacity: 1 !important;
+}
+
+/* Utility page navigation icons */
+html[data-theme="light"] .utilityBackButton,
+html[data-theme="light"] .utilityBackButton i,
+html[data-theme="light"] .utilityBackButton i::before,
+html[data-theme="light"] .utilityBackButton svg {
+    color: #424a55 !important;
+    -webkit-text-fill-color: #424a55 !important;
+    fill: #424a55 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Avoid faded icons caused by inherited filters */
+html[data-theme="light"] .helpCardIcon,
+html[data-theme="light"] .themeOptions button,
+html[data-theme="light"] .upgradeHeadingIcon,
+html[data-theme="light"] .upgradePlanTop h2 i,
+html[data-theme="light"] .upgradeComingSoonContent > i,
+html[data-theme="light"] .upgradeFeatureList li i {
+    filter: none !important;
+    text-shadow: none !important;
+}
