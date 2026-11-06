@@ -170,45 +170,6 @@ Open the local URL displayed by Vite in your browser.
 
 ---
 
-## 🔐 Authentication Workflow
-
-PromptFlow uses Passport.js for authentication and Express Session for maintaining user login state.
-
-1. Users submit their login credentials.
-2. Passport Local Strategy verifies the credentials.
-3. Passwords are securely hashed and verified using bcrypt.
-4. Express Session manages authenticated user sessions.
-5. Connect-Mongo stores session information in MongoDB.
-6. Authenticated requests are handled through the session.
-
----
-
-## 🤖 OpenAI Integration
-
-PromptFlow integrates the OpenAI API using the **GPT-4o mini model**.
-
-The integration supports:
-- Generating AI responses.
-- Maintaining conversational context.
-- Processing text-based messages.
-- Handling image-based inputs.
-
-The backend manages communication with the OpenAI API so that the API key remains on the server side.
-
----
-
-## 🗄️ Database & Storage
-
-MongoDB is used as the primary database, with Mongoose for schema management and database operations.
-
-The application uses:
-- **MongoDB:** Stores application data.
-- **Mongoose:** Handles schemas and database interactions.
-- **Connect-Mongo:** Persists session data.
-- **MongoDB GridFS:** Stores uploaded image files.
-
----
-
 ## 🚀 Future Improvements
 
 - Improve chat search and organization.
