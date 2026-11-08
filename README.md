@@ -184,6 +184,9 @@ Open the local URL displayed by Vite in your browser.
 
 **Sanjeeb Kumar Mishra**
 
+MCA – Artificial Intelligence & Internet of Things   
+National Institute of Technology, Patna
+
 🌐 **Live Application:**  
 https://promptflow-ai-powered-virtual-assistant-xhhg.onrender.com/
 
